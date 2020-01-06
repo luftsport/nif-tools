@@ -11,7 +11,7 @@ pip install git+https://github/luftsport/nif-tools
 
 ### Login
 ```
-from nif-tools import passbuy
+from nif_tools import Passbuy
 
 pb = Passbuy(username='username', password='password', realm='ka', verify=True)
 status, person_id, fed_cookie_jar = pb.login()
@@ -19,3 +19,8 @@ if status is True:
     print('Person Id:', person_id)
 ```
 
+## Build documentation
+
+The documentation is built with sphinx `sphinx-build -b html docs-source docs` which builds the documentation from docs-source to docs. Docs folder is for local viewing.
+
+To build documentation for a release, use `make gh-pages` which will build and commit the documentation to the projects gh-pages.
