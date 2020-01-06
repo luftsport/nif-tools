@@ -160,8 +160,99 @@
 
            <div itemprop="articleBody">
             
-  <div class="section" id="passbuy-module">
-<h1>passbuy module<a class="headerlink" href="#passbuy-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-nif_tools.passbuy">
+<span id="passbuy-module"></span><h1>passbuy module<a class="headerlink" href="#module-nif_tools.passbuy" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="nif_tools.passbuy.Error">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">Error</code><a class="reference internal" href="_modules/nif_tools/passbuy.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base class for exceptions in this module.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="nif_tools.passbuy.InputError">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">InputError</code><span class="sig-paren">(</span><em class="sig-param">expression</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#InputError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.InputError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nif_tools.passbuy.Error" title="nif_tools.passbuy.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">nif_tools.passbuy.Error</span></code></a></p>
+<p>Exception raised for errors in the input.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>expression – input expression in which the error occurred
+message – explanation of the error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="exception">
+<dt id="nif_tools.passbuy.MaintenanceError">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">MaintenanceError</code><a class="reference internal" href="_modules/nif_tools/passbuy.html#MaintenanceError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.MaintenanceError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nif_tools.passbuy.Error" title="nif_tools.passbuy.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">nif_tools.passbuy.Error</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nif_tools.passbuy.Passbuy">
+<em class="property">class </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">Passbuy</code><span class="sig-paren">(</span><em class="sig-param">username</em>, <em class="sig-param">password</em>, <em class="sig-param">realm='minidrett'</em>, <em class="sig-param">verify=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.bp_jar">
+<code class="sig-name descname">bp_jar</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.bp_jar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.buypass">
+<code class="sig-name descname">buypass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.buypass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.buypass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns
+login url
+challenge</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.is_maintanance">
+<code class="sig-name descname">is_maintanance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.is_maintanance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.is_maintanance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if maintanance mode</p>
+<p>NIF web (KA/MI/SA) gives normal http 200, need to check title
+Also: re.search(‘(?&lt;=&lt;title&gt;).+?(?=&lt;/title&gt;)’, mytext, re.DOTALL).group().strip()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns boolean is_maintanance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.ka_login">
+<code class="sig-name descname">ka_login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.ka_login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.ka_login" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.login">
+<code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.login" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.minidrett">
+<code class="sig-name descname">minidrett</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.minidrett"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.minidrett" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.nif_id">
+<code class="sig-name descname">nif_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.nif_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.nif_jar">
+<code class="sig-name descname">nif_jar</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_jar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.nif_realm">
+<code class="sig-name descname">nif_realm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.nif_realm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_realm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.person_id">
+<code class="sig-name descname">person_id</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.person_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 
 

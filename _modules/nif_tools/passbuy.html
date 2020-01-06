@@ -96,6 +96,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../common.html">common module</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Module index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">nif_tools</a></li>
+</ul>
 
             
           
@@ -163,16 +167,16 @@
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
 
 
-<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for exceptions in this module.&quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="MaintenanceError"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.MaintenanceError">[docs]</a><span class="k">class</span> <span class="nc">MaintenanceError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+<div class="viewcode-block" id="MaintenanceError"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.MaintenanceError">[docs]</a><span class="k">class</span> <span class="nc">MaintenanceError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="InputError"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.InputError">[docs]</a><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+<div class="viewcode-block" id="InputError"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.InputError">[docs]</a><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised for errors in the input.</span>
 
 <span class="sd">    Attributes:</span>
@@ -185,7 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span></div>
 
 
-<div class="viewcode-block" id="Passbuy"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy">[docs]</a><span class="k">class</span> <span class="nc">Passbuy</span><span class="p">:</span>
+<div class="viewcode-block" id="Passbuy"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy">[docs]</a><span class="k">class</span> <span class="nc">Passbuy</span><span class="p">:</span>
     <span class="n">nif_jar</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">bp_jar</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">person_id</span> <span class="o">=</span> <span class="kc">None</span>
@@ -214,7 +218,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_maintanance</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="n">MaintenanceError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is down for maintance&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Passbuy.is_maintanance"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.is_maintanance">[docs]</a>    <span class="k">def</span> <span class="nf">is_maintanance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.is_maintanance"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.is_maintanance">[docs]</a>    <span class="k">def</span> <span class="nf">is_maintanance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if maintanance mode</span>
 
 <span class="sd">        NIF web (KA/MI/SA) gives normal http 200, need to check title</span>
@@ -237,10 +241,10 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="Passbuy.login"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.login"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minidrett</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Passbuy.nif_realm"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.nif_realm">[docs]</a>    <span class="k">def</span> <span class="nf">nif_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.nif_realm"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.nif_realm">[docs]</a>    <span class="k">def</span> <span class="nf">nif_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://</span><span class="si">{}</span><span class="s1">.nif.no/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">))</span>
 
@@ -272,7 +276,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Passbuy.buypass"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.buypass">[docs]</a>    <span class="k">def</span> <span class="nf">buypass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.buypass"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.buypass">[docs]</a>    <span class="k">def</span> <span class="nf">buypass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns</span>
 <span class="sd">        login url</span>
 <span class="sd">        challenge</span>
@@ -306,7 +310,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Passbuy.nif_id"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.nif_id">[docs]</a>    <span class="k">def</span> <span class="nf">nif_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.nif_id"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.nif_id">[docs]</a>    <span class="k">def</span> <span class="nf">nif_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">status</span><span class="p">,</span> <span class="n">buypass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buypass</span><span class="p">()</span>
 
@@ -364,7 +368,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Passbuy.minidrett"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.minidrett">[docs]</a>    <span class="k">def</span> <span class="nf">minidrett</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.minidrett"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.minidrett">[docs]</a>    <span class="k">def</span> <span class="nf">minidrett</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="n">status</span><span class="p">,</span> <span class="n">nif_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nif_id</span><span class="p">()</span>
 
@@ -397,7 +401,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Passbuy.ka_login"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.ka_login">[docs]</a>    <span class="k">def</span> <span class="nf">ka_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Passbuy.ka_login"><a class="viewcode-back" href="../../passbuy.html#nif_tools.passbuy.Passbuy.ka_login">[docs]</a>    <span class="k">def</span> <span class="nf">ka_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 

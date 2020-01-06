@@ -96,6 +96,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../common.html">common module</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Module index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">nif_tools</a></li>
+</ul>
 
             
           
@@ -181,7 +185,7 @@
 <span class="kn">from</span> <span class="nn">nif_tools.common</span> <span class="k">import</span> <span class="n">get_headers</span>
 
 
-<div class="viewcode-block" id="KA"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA">[docs]</a><span class="k">class</span> <span class="nc">KA</span><span class="p">:</span>
+<div class="viewcode-block" id="KA"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA">[docs]</a><span class="k">class</span> <span class="nc">KA</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="n">email_recepients</span><span class="o">=</span><span class="p">[]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">KA_REALM</span> <span class="o">=</span> <span class="n">realm</span>
@@ -197,22 +201,22 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">email_recepients</span> <span class="o">=</span> <span class="n">email_recepients</span>
 
-<div class="viewcode-block" id="KA.get_realm"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_realm">[docs]</a>    <span class="k">def</span> <span class="nf">get_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_realm"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_realm">[docs]</a>    <span class="k">def</span> <span class="nf">get_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_REALM</span></div>
 
-<div class="viewcode-block" id="KA.get_url"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_url"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span></div>
 
-<div class="viewcode-block" id="KA.get_headers"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_headers"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span></div>
 
-<div class="viewcode-block" id="KA.get_username"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_username">[docs]</a>    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_username"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_username">[docs]</a>    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span></div>
 
-<div class="viewcode-block" id="KA.get_person_id"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_id"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span></div>
 
-<div class="viewcode-block" id="KA.req"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.req">[docs]</a>    <span class="k">def</span> <span class="nf">req</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.req"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.req">[docs]</a>    <span class="k">def</span> <span class="nf">req</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Just parse the request object</span>
 
 <span class="sd">        :parameter requests r: requests response object</span>
@@ -235,7 +239,7 @@
 
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span></div>
 
-<div class="viewcode-block" id="KA.remove_keys"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.remove_keys">[docs]</a>    <span class="k">def</span> <span class="nf">remove_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.remove_keys"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.remove_keys">[docs]</a>    <span class="k">def</span> <span class="nf">remove_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Remove keys from dict</span>
 
 <span class="sd">        :parameter dict d: dictionary object</span>
@@ -248,7 +252,7 @@
 
         <span class="k">return</span> <span class="n">d</span></div>
 
-<div class="viewcode-block" id="KA.post"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="KA.post"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;Posts json to a resource-ish</span>
 
 <span class="sd">        :param str url: the relative url to the resource</span>
@@ -269,7 +273,7 @@
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="KA.get"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="KA.get"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;Gets json from a resource</span>
 
 <span class="sd">        :param str url: the relative url to the resource</span>
@@ -288,7 +292,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="KA.requests_html"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.requests_html">[docs]</a>    <span class="k">def</span> <span class="nf">requests_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">key1</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[],</span> <span class="n">pre_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">post_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.requests_html"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.requests_html">[docs]</a>    <span class="k">def</span> <span class="nf">requests_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">key1</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[],</span> <span class="n">pre_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">post_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets html page and returns json from jquery&quot;&quot;&quot;</span>
         <span class="n">error</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">key2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -322,7 +326,7 @@
         <span class="n">flt</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="n">to</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;MemberSearchRequest&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="KA.get_clubs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_clubs">[docs]</a>    <span class="k">def</span> <span class="nf">get_clubs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_clubs"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_clubs">[docs]</a>    <span class="k">def</span> <span class="nf">get_clubs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get clubs in search filter&quot;&quot;&quot;</span>
 
         <span class="n">clubs_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ClubName&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -346,7 +350,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="KA.touch_person"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.touch_person">[docs]</a>    <span class="k">def</span> <span class="nf">touch_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.touch_person"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.touch_person">[docs]</a>    <span class="k">def</span> <span class="nf">touch_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Just generate a change message&quot;&quot;&quot;</span>
 
         <span class="n">status</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_person</span><span class="p">(</span><span class="n">person_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
@@ -360,7 +364,7 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="KA.get_person"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get person from ka</span>
 
 <span class="sd">        :parameter int person_id: Person Id</span>
@@ -383,7 +387,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">person</span></div>
 
-<div class="viewcode-block" id="KA.get_person_details"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_details">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_details"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_details">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonMemberDetail/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonMemberDetailViewModel.create(&#39;</span>
@@ -395,7 +399,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">details</span></div>
 
-<div class="viewcode-block" id="KA.get_person_reskonto"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_reskonto">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_reskonto"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_reskonto">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonInvoice/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonInvoiceViewModel.create(&#39;</span>
         <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CurrentPage&#39;</span><span class="p">]</span>
@@ -403,7 +407,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="KA.get_person_reskonto_year"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_reskonto_year">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto_year</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2019</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_reskonto_year"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_reskonto_year">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto_year</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2019</span><span class="p">):</span>
 
         <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/PersonInvoice/ChangeYear&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">),</span>
                              <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span> <span class="s1">&#39;PersonId&#39;</span><span class="p">:</span> <span class="n">person_id</span><span class="p">},</span>
@@ -415,7 +419,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="KA.get_person_orgs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_orgs"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return orgs</span>
 
 <span class="sd">        p[&#39;MembershipOrgSelectionViewModel&#39;][&#39;FederationClubSelectionViewModel&#39;].keys()</span>
@@ -436,7 +440,7 @@
              <span class="p">}</span>
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">r</span></div>
 
-<div class="viewcode-block" id="KA.save_person_orgs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.save_person_orgs"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.save_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
     <span class="k">def</span> <span class="nf">_sanitize_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orgs</span><span class="p">):</span>
@@ -447,7 +451,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="KA.get_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_products"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonProduct/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonProductViewModel.create(&#39;</span>
@@ -458,7 +462,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="KA.save_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.save_person_products"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.save_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save persons products</span>
 
 <span class="sd">        :parameter dict products: products from get_person_products, should be sanitized in sanitize_products</span>
@@ -475,7 +479,7 @@
     <span class="c1"># def _sanitize_tandem_products(self):</span>
     <span class="c1">#    pass</span>
 
-<div class="viewcode-block" id="KA.sanitize_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.sanitize_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">sanitize_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">products</span><span class="p">,</span> <span class="n">org_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tandem</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.sanitize_person_products"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.sanitize_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">sanitize_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">products</span><span class="p">,</span> <span class="n">org_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tandem</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sanitizes products by checking correct according to organization and if is tandem</span>
 
 <span class="sd">        :parameter int person_id: Person Id</span>
@@ -546,7 +550,7 @@
 
         <span class="k">return</span> <span class="n">products</span></div>
 
-<div class="viewcode-block" id="KA.magazines"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.magazines">[docs]</a>    <span class="k">def</span> <span class="nf">magazines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.magazines"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.magazines">[docs]</a>    <span class="k">def</span> <span class="nf">magazines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Legacy</span>
 <span class="sd">        @TODO Remove</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -580,7 +584,7 @@
     <span class="c1"># def _sanitize_orgs(self):</span>
     <span class="c1">#    pass</span>
 
-<div class="viewcode-block" id="KA.get_person_licenses"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_licenses">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_licenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_licenses"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_licenses">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_licenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonLicense/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonLicenseViewModel.create(&#39;</span>
 
@@ -588,7 +592,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Licenses&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="KA.get_person_competence"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_competence">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_competence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_competence"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_competence">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_competence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonCompetence/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonCompetenceViewModel.create(&#39;</span>
 
@@ -596,7 +600,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Competences&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="KA.get_age"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_age">[docs]</a>    <span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_age"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_age">[docs]</a>    <span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get person from ka, calculate age by calendar year</span>
 
 <span class="sd">        :parameter int person_id: Person Id</span>
@@ -620,17 +624,17 @@
         <span class="c1"># Return default</span>
         <span class="k">return</span> <span class="mi">40</span></div>
 
-<div class="viewcode-block" id="KA.get_members"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">member_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unntak</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_members"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">member_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unntak</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></div>
 
-<div class="viewcode-block" id="KA.get_invoices"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_invoices"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get list of invoices</span>
 
 <span class="sd">        :returns list invoices: list of invoices from search</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="KA.get_applications"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_applications">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_applications"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_applications">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get membership applications</span>
 
 <span class="sd">        These are the applications by the members themselves</span>
@@ -646,14 +650,14 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="KA.get_inbox"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_inbox">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_inbox"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_inbox">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        alias for get_applications</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_applications</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="KA.approve_application"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_application">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.approve_application"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.approve_application">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Approve an application</span>
 
 <span class="sd">        Sanitizes, approves and invoices</span>
@@ -689,7 +693,7 @@
         <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="KA.get_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_person_activities"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonActivity/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonActivityViewModel.create(&#39;</span>
@@ -698,7 +702,7 @@
                        <span class="s1">&#39;Pages&#39;</span><span class="p">,</span> <span class="s1">&#39;NavigationTarget&#39;</span><span class="p">,</span> <span class="s1">&#39;PageCount&#39;</span><span class="p">,</span> <span class="s1">&#39;BindingContainerId&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="n">remove_keys</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KA.select_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.select_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">select_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.select_person_activities"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.select_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">select_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Select the club/org_id to get activities which we then can save later</span>
 
 <span class="sd">        :parameter int person_id: Person Id</span>
@@ -725,7 +729,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KA.save_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">selected_activities</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.save_person_activities"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.save_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">selected_activities</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;We process the selected in select_person_activities&quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -802,7 +806,7 @@
 
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KA.check_person_activities_org"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.check_person_activities_org">[docs]</a>    <span class="k">def</span> <span class="nf">check_person_activities_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.check_person_activities_org"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.check_person_activities_org">[docs]</a>    <span class="k">def</span> <span class="nf">check_person_activities_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns true if acitivity org in application org&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;ExistingClubs&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">org_id</span><span class="p">:</span>
@@ -810,7 +814,7 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="KA.get_inbox_ended"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_inbox_ended">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_inbox_ended"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_inbox_ended">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get inbox items for applications for ending membership</span>
 
 <span class="sd">        :returns list: inbox list of current applications to cancel membership(s)</span>
@@ -833,7 +837,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="KA.approve_application_ended"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_application_ended">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inboxline</span><span class="p">,</span> <span class="n">refund</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.approve_application_ended"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.approve_application_ended">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inboxline</span><span class="p">,</span> <span class="n">refund</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Approve the cancellation - 1 application a time, or?</span>
 
 <span class="sd">        Will it refund invoices?</span>
@@ -868,7 +872,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">status_application</span><span class="p">,</span> <span class="n">application</span></div>
 
-<div class="viewcode-block" id="KA.get_applications_deceased"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_applications_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_applications_deceased"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_applications_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get and process dead people&quot;&quot;&quot;</span>
 
         <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;nif.memberMessagesDeceasedMembersViewModel = Nif.PersonInboxLineListViewModel.create(&#39;</span>
@@ -878,7 +882,7 @@
 
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="KA.approve_deceased"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">approve_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.approve_deceased"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.approve_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">approve_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Approve and refund invoices for deceased member&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
@@ -916,7 +920,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Error&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
 
-<div class="viewcode-block" id="KA.get_members_in_org"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members_in_org">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_in_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_members_in_org"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_members_in_org">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_in_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Members/Search&#39;</span>
 
         <span class="n">flt_status</span><span class="p">,</span> <span class="n">flt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_filter</span><span class="p">()</span>
@@ -929,7 +933,7 @@
         <span class="c1"># get(&#39;TotalResults&#39;, 0) =&gt; should be returned too....</span>
         <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Members&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="KA.get_members_from_search"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members_from_search">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_from_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.get_members_from_search"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.get_members_from_search">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_from_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">from_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">from_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
@@ -985,7 +989,7 @@
 
         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="KA.can_invoice"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.can_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">can_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="KA.can_invoice"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.can_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">can_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 
         <span class="n">person_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_invoices</span><span class="p">(</span><span class="n">person_ids</span><span class="p">)</span>
@@ -995,7 +999,7 @@
 
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="KA.send_invoices"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.send_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_ids</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="KA.send_invoices"><a class="viewcode-back" href="../../ka.html#nif_tools.ka.KA.send_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_ids</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;This actually sends the invoice&quot;&quot;&quot;</span>
 
         <span class="c1"># NIF can&#39;t handle non-unique person_ids, it will make invoice for each</span>
