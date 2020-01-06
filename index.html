@@ -34,7 +34,8 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mi module" href="mi.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,15 +83,21 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Welcome to Nif Tools’s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
-<li><a class="reference internal" href="#recent-changes">Recent Changes</a></li>
+              <p class="caption"><span class="caption-text">NIF Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mi.html">mi module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ka.html">ka module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sa.html">sa module</a></li>
 </ul>
-</li>
+<p class="caption"><span class="caption-text">Passbuy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="passbuy.html">passbuy module</a></li>
 </ul>
-</div>
+<p class="caption"><span class="caption-text">Common functions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.html">common module</a></li>
+</ul>
+
             
           
         </div>
@@ -154,7 +161,48 @@
             
   <div class="section" id="welcome-to-nif-tools-s-documentation">
 <h1>Welcome to Nif Tools’s documentation!<a class="headerlink" href="#welcome-to-nif-tools-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Incomplete module</p>
+</div>
+<div class="section" id="nif-tools">
+<h2>NIF Tools<a class="headerlink" href="#nif-tools" title="Permalink to this headline">¶</a></h2>
+<p>A set of tools based upon requests to programatically interact with the web instances at minidrett, ka and sa.nif.no.</p>
+<p>Login:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nif</span><span class="o">-</span><span class="n">tools</span> <span class="kn">import</span> <span class="nn">passbuy</span>
+
+<span class="n">pb</span> <span class="o">=</span> <span class="n">Passbuy</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">status</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">fed_cookie_jar</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Person Id:&#39;</span><span class="p">,</span> <span class="n">person_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get list of clubs from KA:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nif_tools</span> <span class="k">import</span> <span class="n">KA</span>
+<span class="n">ka</span> <span class="o">=</span> <span class="n">KA</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+<span class="n">clubs</span> <span class="o">=</span> <span class="n">ka</span><span class="o">.</span><span class="n">get_clubs</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">NIF Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mi.html">mi module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ka.html">ka module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sa.html">sa module</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Passbuy</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="passbuy.html">passbuy module</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Common functions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.html">common module</a></li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -164,13 +212,12 @@
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-<div class="section" id="recent-changes">
-<h2>Recent Changes<a class="headerlink" href="#recent-changes" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p><strong>Doc rst files</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:36:58</em></p></li>
+<li><p><strong>Ka example</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:36:46</em></p></li>
 <li><p><strong>Initial commit as module</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:11:21</em></p></li>
 <li><p><strong>Adding .gitignore</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 19:50:34</em></p></li>
 </ul>
-</div>
 </div>
 
 
@@ -182,6 +229,13 @@
     </a>
 
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mi.html" class="btn btn-neutral float-right" title="mi module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
   
 
   <hr/>
