@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nif_tools package &mdash; NIF Tools 0.7.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NIF Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">nif_tools package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-nif_tools.ka">nif_tools.ka module</a><ul>
+<li><a class="reference internal" href="#ka-class">KA class</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-nif_tools.mi">nif_tools.mi module</a></li>
+<li><a class="reference internal" href="#module-nif_tools.common">nif_tools.common module</a></li>
+<li><a class="reference internal" href="#module-nif_tools.passbuy">nif_tools.passbuy module</a></li>
+<li><a class="reference internal" href="#module-nif_tools.sa">nif_tools.sa module</a></li>
+<li><a class="reference internal" href="#module-nif_tools">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NIF Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>nif_tools package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nif-tools-package">
+<h1>nif_tools package<a class="headerlink" href="#nif-tools-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-nif_tools.ka">
+<span id="nif-tools-ka-module"></span><h2>nif_tools.ka module<a class="headerlink" href="#module-nif_tools.ka" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ka-class">
+<h3>KA class<a class="headerlink" href="#ka-class" title="Permalink to this headline">¶</a></h3>
+<p>A simple class to interface KA</p>
+<ul class="simple">
+<li><p>Login done with PassBuy</p></li>
+<li><p>Access the KA webpages programatically</p></li>
+<li><p>Read and write support</p></li>
+</ul>
+<dl class="class">
+<dt id="nif_tools.ka.KA">
+<em class="property">class </em><code class="sig-prename descclassname">nif_tools.ka.</code><code class="sig-name descname">KA</code><span class="sig-paren">(</span><em class="sig-param">username</em>, <em class="sig-param">password</em>, <em class="sig-param">realm='ka'</em>, <em class="sig-param">email_recepients=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="nif_tools.ka.KA.approve_application">
+<code class="sig-name descname">approve_application</code><span class="sig-paren">(</span><em class="sig-param">application</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.approve_application"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.approve_application" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approve an application</p>
+<p>Sanitizes, approves and invoices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.approve_application_ended">
+<code class="sig-name descname">approve_application_ended</code><span class="sig-paren">(</span><em class="sig-param">inboxline</em>, <em class="sig-param">refund=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.approve_application_ended"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.approve_application_ended" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approve the cancellation - 1 application a time, or?</p>
+<p>Will it refund invoices?
+:parameter dict inboxline: one item from get_applications_ended
+:parameter boolean refund: if to refund invoices or not, default True
+:returns boolean result: result of approval</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.approve_deceased">
+<code class="sig-name descname">approve_deceased</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.approve_deceased"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.approve_deceased" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approve and refund invoices for deceased member</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.can_invoice">
+<code class="sig-name descname">can_invoice</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/nif_tools/ka.html#KA.can_invoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.can_invoice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.check_person_activities_org">
+<code class="sig-name descname">check_person_activities_org</code><span class="sig-paren">(</span><em class="sig-param">org_id</em>, <em class="sig-param">activities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.check_person_activities_org"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.check_person_activities_org" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if acitivity org in application org</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">url=None</em>, <em class="sig-param">params=None</em>, <em class="sig-param">remove_keys=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets json from a resource</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the relative url to the resource</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – a dictionary for the parameters</p></li>
+<li><p><strong>remove_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – keys to remove</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns int, dictionary requests.status_code, result</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_age">
+<code class="sig-name descname">get_age</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_age" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get person from ka, calculate age by calendar year</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>person_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Person Id</p>
+</dd>
+<dt class="field-even">Returns int age</dt>
+<dd class="field-even"><p>Person age by calendar year</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_applications">
+<code class="sig-name descname">get_applications</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_applications"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_applications" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get membership applications</p>
+<p>These are the applications by the members themselves</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns int</dt>
+<dd class="field-odd"><p>http status code</p>
+</dd>
+<dt class="field-even">Returns list</dt>
+<dd class="field-even"><p>list of inbox items = applications</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_applications_deceased">
+<code class="sig-name descname">get_applications_deceased</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_applications_deceased"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_applications_deceased" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get and process dead people</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_clubs">
+<code class="sig-name descname">get_clubs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_clubs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_clubs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get clubs in search filter</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_headers">
+<code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_inbox">
+<code class="sig-name descname">get_inbox</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_inbox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_inbox" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias for get_applications
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_inbox_ended">
+<code class="sig-name descname">get_inbox_ended</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_inbox_ended"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_inbox_ended" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get inbox items for applications for ending membership</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns list</dt>
+<dd class="field-odd"><p>inbox list of current applications to cancel membership(s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_invoices">
+<code class="sig-name descname">get_invoices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_invoices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_invoices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of invoices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns list invoices</dt>
+<dd class="field-odd"><p>list of invoices from search</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_members">
+<code class="sig-name descname">get_members</code><span class="sig-paren">(</span><em class="sig-param">member_from=None</em>, <em class="sig-param">member_to=None</em>, <em class="sig-param">unntak=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_members"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_members" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_members_from_search">
+<code class="sig-name descname">get_members_from_search</code><span class="sig-paren">(</span><em class="sig-param">from_date=None</em>, <em class="sig-param">to_date=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_members_from_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_members_from_search" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_members_in_org">
+<code class="sig-name descname">get_members_in_org</code><span class="sig-paren">(</span><em class="sig-param">org_id) -&gt; (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'list'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_members_in_org"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_members_in_org" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person">
+<code class="sig-name descname">get_person</code><span class="sig-paren">(</span><em class="sig-param">person_id</em>, <em class="sig-param">remove=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get person from ka</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>person_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Person Id</p>
+</dd>
+<dt class="field-even">Returns int status</dt>
+<dd class="field-even"><p>http code</p>
+</dd>
+<dt class="field-odd">Returns dict person</dt>
+<dd class="field-odd"><p>person</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_activities">
+<code class="sig-name descname">get_person_activities</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_activities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_activities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_competence">
+<code class="sig-name descname">get_person_competence</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_competence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_competence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_details">
+<code class="sig-name descname">get_person_details</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_details" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_id">
+<code class="sig-name descname">get_person_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_licenses">
+<code class="sig-name descname">get_person_licenses</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_licenses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_licenses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_orgs">
+<code class="sig-name descname">get_person_orgs</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_orgs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_orgs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return orgs</p>
+<p>p[‘MembershipOrgSelectionViewModel’][‘FederationClubSelectionViewModel’].keys()
+dict_keys([‘ClubList’, ‘ExistingClubs’, ‘PassiveClubs’, ‘NewClubOrgId’, ‘ExistingFederationFunctionFromDate’, ‘ReturnToIndex’, ‘ReturnUrl’])</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_products">
+<code class="sig-name descname">get_person_products</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_products"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_products" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_reskonto">
+<code class="sig-name descname">get_person_reskonto</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_reskonto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_reskonto" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_person_reskonto_year">
+<code class="sig-name descname">get_person_reskonto_year</code><span class="sig-paren">(</span><em class="sig-param">person_id</em>, <em class="sig-param">year=2019</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_person_reskonto_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_person_reskonto_year" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_realm">
+<code class="sig-name descname">get_realm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_realm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_realm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_url">
+<code class="sig-name descname">get_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.get_username">
+<code class="sig-name descname">get_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.get_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.get_username" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.magazines">
+<code class="sig-name descname">magazines</code><span class="sig-paren">(</span><em class="sig-param">products</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.magazines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.magazines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Legacy
+&#64;TODO Remove</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.post">
+<code class="sig-name descname">post</code><span class="sig-paren">(</span><em class="sig-param">url=None</em>, <em class="sig-param">params=None</em>, <em class="sig-param">remove_keys=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.post" title="Permalink to this definition">¶</a></dt>
+<dd><p>Posts json to a resource-ish</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the relative url to the resource</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – a dictionary for the parameters</p></li>
+<li><p><strong>remove_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – keys to remove</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns int, dictionary requests.status_code, result</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.remove_keys">
+<code class="sig-name descname">remove_keys</code><span class="sig-paren">(</span><em class="sig-param">d</em>, <em class="sig-param">keys</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.remove_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.remove_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove keys from dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – dictionary object</p></li>
+<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – keys to remove</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns dict d</dt>
+<dd class="field-even"><p>Dictionary with removed keys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.req">
+<code class="sig-name descname">req</code><span class="sig-paren">(</span><em class="sig-param">r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just parse the request object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>r</strong> (<em>requests</em>) – requests response object</p>
+</dd>
+<dt class="field-even">Returns int, dict status_code, requests.json</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.requests_html">
+<code class="sig-name descname">requests_html</code><span class="sig-paren">(</span><em class="sig-param">url</em>, <em class="sig-param">params</em>, <em class="sig-param">key1</em>, <em class="sig-param">key2=None</em>, <em class="sig-param">remove_keys=[]</em>, <em class="sig-param">pre_pad=''</em>, <em class="sig-param">post_pad=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.requests_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.requests_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets html page and returns json from jquery</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.sanitize_person_products">
+<code class="sig-name descname">sanitize_person_products</code><span class="sig-paren">(</span><em class="sig-param">person_id</em>, <em class="sig-param">products</em>, <em class="sig-param">org_id=None</em>, <em class="sig-param">tandem=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.sanitize_person_products"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.sanitize_person_products" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitizes products by checking correct according to organization and if is tandem</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>person_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Person Id</p></li>
+<li><p><strong>products</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Products from get_person_products (and sanitized?)</p></li>
+<li><p><strong>org_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – OrgId, only when this is given can Unntak be set</p></li>
+<li><p><strong>tandem</strong> (<em>boolean</em>) – If this is a tandem person, True else False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns dict products</dt>
+<dd class="field-even"><p>Sanitized products</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.save_person_activities">
+<code class="sig-name descname">save_person_activities</code><span class="sig-paren">(</span><em class="sig-param">org_id</em>, <em class="sig-param">selected_activities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.save_person_activities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.save_person_activities" title="Permalink to this definition">¶</a></dt>
+<dd><p>We process the selected in select_person_activities</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.save_person_orgs">
+<code class="sig-name descname">save_person_orgs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.save_person_orgs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.save_person_orgs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.save_person_products">
+<code class="sig-name descname">save_person_products</code><span class="sig-paren">(</span><em class="sig-param">products</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.save_person_products"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.save_person_products" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save persons products</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>products</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – products from get_person_products, should be sanitized in sanitize_products</p>
+</dd>
+<dt class="field-even">Returns int status</dt>
+<dd class="field-even"><p></p></dd>
+<dt class="field-odd">Returns dict result</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.select_person_activities">
+<code class="sig-name descname">select_person_activities</code><span class="sig-paren">(</span><em class="sig-param">person_id</em>, <em class="sig-param">org_id</em>, <em class="sig-param">activities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.select_person_activities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.select_person_activities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select the club/org_id to get activities which we then can save later</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>person_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Person Id</p></li>
+<li><p><strong>org_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Org Id for organization (club)</p></li>
+<li><p><strong>activities</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Activities got in get_person_activities</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns int, dict status_code, activities</dt>
+<dd class="field-even"><p>?</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.send_invoices">
+<code class="sig-name descname">send_invoices</code><span class="sig-paren">(</span><em class="sig-param">person_ids</em>, <em class="sig-param">notify=False) -&gt; (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'dict'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.send_invoices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.send_invoices" title="Permalink to this definition">¶</a></dt>
+<dd><p>This actually sends the invoice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.ka.KA.touch_person">
+<code class="sig-name descname">touch_person</code><span class="sig-paren">(</span><em class="sig-param">person_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/ka.html#KA.touch_person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.ka.KA.touch_person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just generate a change message</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-nif_tools.mi">
+<span id="nif-tools-mi-module"></span><h2>nif_tools.mi module<a class="headerlink" href="#module-nif_tools.mi" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nif_tools.mi.MI">
+<em class="property">class </em><code class="sig-prename descclassname">nif_tools.mi.</code><code class="sig-name descname">MI</code><span class="sig-paren">(</span><em class="sig-param">username</em>, <em class="sig-param">password</em>, <em class="sig-param">realm='mi'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/mi.html#MI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.mi.MI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="nif_tools.mi.MI.get_person_id">
+<code class="sig-name descname">get_person_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/mi.html#MI.get_person_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.mi.MI.get_person_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-nif_tools.common">
+<span id="nif-tools-common-module"></span><h2>nif_tools.common module<a class="headerlink" href="#module-nif_tools.common" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="nif_tools.common.get_email">
+<code class="sig-prename descclassname">nif_tools.common.</code><code class="sig-name descname">get_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/common.html#get_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.common.get_email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nif_tools.common.get_headers">
+<code class="sig-prename descclassname">nif_tools.common.</code><code class="sig-name descname">get_headers</code><span class="sig-paren">(</span><em class="sig-param">realm='ka') -&gt; (&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'dict'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/common.html#get_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.common.get_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-nif_tools.passbuy">
+<span id="nif-tools-passbuy-module"></span><h2>nif_tools.passbuy module<a class="headerlink" href="#module-nif_tools.passbuy" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="nif_tools.passbuy.Error">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">Error</code><a class="reference internal" href="_modules/nif_tools/passbuy.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base class for exceptions in this module.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="nif_tools.passbuy.InputError">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">InputError</code><span class="sig-paren">(</span><em class="sig-param">expression</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#InputError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.InputError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nif_tools.passbuy.Error" title="nif_tools.passbuy.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">nif_tools.passbuy.Error</span></code></a></p>
+<p>Exception raised for errors in the input.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>expression – input expression in which the error occurred
+message – explanation of the error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="exception">
+<dt id="nif_tools.passbuy.MaintenanceError">
+<em class="property">exception </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">MaintenanceError</code><a class="reference internal" href="_modules/nif_tools/passbuy.html#MaintenanceError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.MaintenanceError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nif_tools.passbuy.Error" title="nif_tools.passbuy.Error"><code class="xref py py-class docutils literal notranslate"><span class="pre">nif_tools.passbuy.Error</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nif_tools.passbuy.Passbuy">
+<em class="property">class </em><code class="sig-prename descclassname">nif_tools.passbuy.</code><code class="sig-name descname">Passbuy</code><span class="sig-paren">(</span><em class="sig-param">username</em>, <em class="sig-param">password</em>, <em class="sig-param">realm='minidrett'</em>, <em class="sig-param">verify=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.bp_jar">
+<code class="sig-name descname">bp_jar</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.bp_jar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.buypass">
+<code class="sig-name descname">buypass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.buypass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.buypass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns
+login url
+challenge</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.is_maintanance">
+<code class="sig-name descname">is_maintanance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.is_maintanance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.is_maintanance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if maintanance mode</p>
+<p>NIF web (KA/MI/SA) gives normal http 200, need to check title
+Also: re.search(‘(?&lt;=&lt;title&gt;).+?(?=&lt;/title&gt;)’, mytext, re.DOTALL).group().strip()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns boolean is_maintanance</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.ka_login">
+<code class="sig-name descname">ka_login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.ka_login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.ka_login" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.login">
+<code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.login" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.minidrett">
+<code class="sig-name descname">minidrett</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.minidrett"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.minidrett" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.nif_id">
+<code class="sig-name descname">nif_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.nif_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.nif_jar">
+<code class="sig-name descname">nif_jar</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_jar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nif_tools.passbuy.Passbuy.nif_realm">
+<code class="sig-name descname">nif_realm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nif_tools/passbuy.html#Passbuy.nif_realm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nif_tools.passbuy.Passbuy.nif_realm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nif_tools.passbuy.Passbuy.person_id">
+<code class="sig-name descname">person_id</code><em class="property"> = None</em><a class="headerlink" href="#nif_tools.passbuy.Passbuy.person_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-nif_tools.sa">
+<span id="nif-tools-sa-module"></span><h2>nif_tools.sa module<a class="headerlink" href="#module-nif_tools.sa" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-nif_tools">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nif_tools" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/luftsport/nif-tools">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Norges Luftsportforbund
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+ 
+<div>
+    Code is available on <a href="https://github.com/luftsport/nif-tools">https://github.com/luftsport/nif-tools</a>
+</div>
+<!-- your html code here -->
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

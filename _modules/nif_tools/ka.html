@@ -1,0 +1,1082 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nif_tools.ka &mdash; NIF Tools 0.7.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NIF Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NIF Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nif_tools.ka</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nif_tools.ka</h1><div class="highlight"><pre>
+<span></span><span class="c1"># - *- coding: utf- 8 - *-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KA class</span>
+<span class="sd">    ~~~~~~~~</span>
+
+<span class="sd">    A simple class to interface KA</span>
+
+<span class="sd">    - Login done with PassBuy</span>
+<span class="sd">    - Access the KA webpages programatically</span>
+<span class="sd">    - Read and write support</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">nif_tools.passbuy</span> <span class="k">import</span> <span class="n">Passbuy</span>
+<span class="kn">import</span> <span class="nn">dateutil.parser</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">nif_tools.common</span> <span class="k">import</span> <span class="n">get_headers</span>
+
+
+<div class="viewcode-block" id="KA"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA">[docs]</a><span class="k">class</span> <span class="nc">KA</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="n">email_recepients</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KA_REALM</span> <span class="o">=</span> <span class="n">realm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span> <span class="o">=</span> <span class="n">get_headers</span><span class="p">(</span><span class="n">realm</span><span class="o">=</span><span class="n">realm</span><span class="p">)</span>
+
+        <span class="n">pb</span> <span class="o">=</span> <span class="n">Passbuy</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+                     <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+                     <span class="n">realm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_REALM</span><span class="p">)</span>
+        <span class="n">status</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Could not log in via passbuy&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">email_recepients</span> <span class="o">=</span> <span class="n">email_recepients</span>
+
+<div class="viewcode-block" id="KA.get_realm"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_realm">[docs]</a>    <span class="k">def</span> <span class="nf">get_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_REALM</span></div>
+
+<div class="viewcode-block" id="KA.get_url"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span></div>
+
+<div class="viewcode-block" id="KA.get_headers"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_headers">[docs]</a>    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span></div>
+
+<div class="viewcode-block" id="KA.get_username"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_username">[docs]</a>    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span></div>
+
+<div class="viewcode-block" id="KA.get_person_id"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span></div>
+
+<div class="viewcode-block" id="KA.req"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.req">[docs]</a>    <span class="k">def</span> <span class="nf">req</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Just parse the request object</span>
+
+<span class="sd">        :parameter requests r: requests response object</span>
+<span class="sd">        :returns int, dict status_code, requests.json:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;ErrorMessageViewModel&#39;</span> <span class="ow">in</span> <span class="n">result</span> <span class="ow">and</span> \
+                        <span class="s1">&#39;ErrorMessage&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;ErrorMessageViewModel&#39;</span><span class="p">]</span> <span class="ow">and</span> \
+                        <span class="n">result</span><span class="p">[</span><span class="s1">&#39;ErrorMessageViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;ErrorMessage&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">result</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">result</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="p">{}</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+                <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span></div>
+
+<div class="viewcode-block" id="KA.remove_keys"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.remove_keys">[docs]</a>    <span class="k">def</span> <span class="nf">remove_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove keys from dict</span>
+
+<span class="sd">        :parameter dict d: dictionary object</span>
+<span class="sd">        :parameter list keys: keys to remove</span>
+<span class="sd">        :returns dict d: Dictionary with removed keys</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">d</span></div>
+
+<div class="viewcode-block" id="KA.post"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;Posts json to a resource-ish</span>
+
+<span class="sd">        :param str url: the relative url to the resource</span>
+<span class="sd">        :param dict params: a dictionary for the parameters</span>
+<span class="sd">        :parameter list remove_keys: keys to remove</span>
+<span class="sd">        :returns int, dictionary requests.status_code, result:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">,</span> <span class="n">url</span><span class="p">),</span>
+                          <span class="n">json</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                          <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">,</span>
+                          <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">)</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">req</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_keys</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">remove_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">200</span> <span class="ow">or</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">201</span><span class="p">:</span>
+            <span class="c1"># print(status, result)</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="KA.get"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;Gets json from a resource</span>
+
+<span class="sd">        :param str url: the relative url to the resource</span>
+<span class="sd">        :param dict params: a dictionary for the parameters</span>
+<span class="sd">        :parameter list remove_keys: keys to remove</span>
+<span class="sd">        :returns int, dictionary requests.status_code, result:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">,</span> <span class="n">url</span><span class="p">),</span>
+                         <span class="n">json</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                         <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">,</span>
+                         <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">)</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">req</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_keys</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">remove_keys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="KA.requests_html"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.requests_html">[docs]</a>    <span class="k">def</span> <span class="nf">requests_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">key1</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="p">[],</span> <span class="n">pre_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">post_pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets html page and returns json from jquery&quot;&quot;&quot;</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">key2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">key2</span> <span class="o">=</span> <span class="s1">&#39;);&#39;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">,</span> <span class="n">url</span><span class="p">),</span>
+                         <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">,</span>
+                         <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">js</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre_pad</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">post_pad</span><span class="p">))</span>
+
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_keys</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">remove_keys</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">result</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">e</span>
+
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="p">{}</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_search_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get member search filter&quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/Members/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">)</span>
+        <span class="n">en</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;var model = {&#39;</span><span class="p">)</span>
+        <span class="n">to</span> <span class="o">=</span> <span class="n">en</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;};&#39;</span><span class="p">)</span>
+        <span class="n">flt</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="n">to</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;MemberSearchRequest&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="KA.get_clubs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_clubs">[docs]</a>    <span class="k">def</span> <span class="nf">get_clubs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get clubs in search filter&quot;&quot;&quot;</span>
+
+        <span class="n">clubs_filter</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ClubName&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="s1">&#39;CouncilIds&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                        <span class="s1">&#39;CountyIds&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                        <span class="s1">&#39;CurrentPage&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s1">&#39;Direction&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="s1">&#39;Email&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="s1">&#39;From&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="s1">&#39;MobilePhoneNumber&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="s1">&#39;OrderBy&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="s1">&#39;Size&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/Members/SearchClub&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">),</span>
+                             <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">,</span>
+                             <span class="n">json</span><span class="o">=</span><span class="n">clubs_filter</span><span class="p">,</span>
+                             <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="KA.touch_person"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.touch_person">[docs]</a>    <span class="k">def</span> <span class="nf">touch_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Just generate a change message&quot;&quot;&quot;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_person</span><span class="p">(</span><span class="n">person_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_url</span> <span class="o">=</span> <span class="s1">&#39;PersonDetail/Save&#39;</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">s</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">save_url</span><span class="p">,</span> <span class="n">person</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="KA.get_person"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person">[docs]</a>    <span class="k">def</span> <span class="nf">get_person</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get person from ka</span>
+
+<span class="sd">        :parameter int person_id: Person Id</span>
+<span class="sd">        :returns int status: http code</span>
+<span class="sd">        :returns dict person: person</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonDetail/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="c1"># key = &#39;Nif.PersonDetailViewModel.create(&#39;</span>
+        <span class="n">key1</span> <span class="o">=</span> <span class="s1">&#39;var baseModel = {&#39;</span>
+        <span class="n">key2</span> <span class="o">=</span> <span class="s1">&#39;};&#39;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key1</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="n">key2</span><span class="p">,</span> <span class="n">pre_pad</span><span class="o">=</span><span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="n">post_pad</span><span class="o">=</span><span class="s1">&#39;}&#39;</span><span class="p">)</span>
+
+        <span class="c1"># print(&#39;RESULT&#39;, status, person)</span>
+
+        <span class="k">if</span> <span class="n">remove</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Genders&#39;</span><span class="p">,</span> <span class="s1">&#39;Countries&#39;</span><span class="p">]</span>
+            <span class="n">person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_keys</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;EditPersonViewModel&#39;</span><span class="p">],</span> <span class="n">remove_keys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">person</span></div>
+
+<div class="viewcode-block" id="KA.get_person_details"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_details">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonMemberDetail/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonMemberDetailViewModel.create(&#39;</span>
+        <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CurrentPage&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;TitleCssClass&#39;</span><span class="p">,</span> <span class="s1">&#39;Pages&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;NavigationTarget&#39;</span><span class="p">,</span> <span class="s1">&#39;PageCount&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;BindingContainerId&#39;</span><span class="p">,</span> <span class="s1">&#39;ErrorMessageViewModel&#39;</span><span class="p">]</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">details</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="n">remove_keys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">details</span></div>
+
+<div class="viewcode-block" id="KA.get_person_reskonto"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_reskonto">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonInvoice/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonInvoiceViewModel.create(&#39;</span>
+        <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CurrentPage&#39;</span><span class="p">]</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="n">remove_keys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="KA.get_person_reskonto_year"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_reskonto_year">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_reskonto_year</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2019</span><span class="p">):</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/PersonInvoice/ChangeYear&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">),</span>
+                             <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Year&#39;</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span> <span class="s1">&#39;PersonId&#39;</span><span class="p">:</span> <span class="n">person_id</span><span class="p">},</span>
+                             <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_HEADERS</span><span class="p">,</span>
+                             <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fed_cookie</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="KA.get_person_orgs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return orgs</span>
+
+<span class="sd">        p[&#39;MembershipOrgSelectionViewModel&#39;][&#39;FederationClubSelectionViewModel&#39;].keys()</span>
+<span class="sd">        dict_keys([&#39;ClubList&#39;, &#39;ExistingClubs&#39;, &#39;PassiveClubs&#39;, &#39;NewClubOrgId&#39;, &#39;ExistingFederationFunctionFromDate&#39;, &#39;ReturnToIndex&#39;, &#39;ReturnUrl&#39;])</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonActivity/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonActivityViewModel.create(&#39;</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ExistingClubs&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">][</span>
+            <span class="s1">&#39;ExistingClubs&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;PassiveClubs&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">][</span>
+                 <span class="s1">&#39;PassiveClubs&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;NewClubOrgId&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">][</span>
+                 <span class="s1">&#39;NewClubOrgId&#39;</span><span class="p">]</span>
+             <span class="p">}</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="KA.save_person_orgs"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_orgs">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">_sanitize_person_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orgs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fixes the missing group/club/gren</span>
+
+<span class="sd">        :param list orgs: list of orgs</span>
+<span class="sd">        :returns list orgs: list of santized orgs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="KA.get_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonProduct/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonProductViewModel.create(&#39;</span>
+        <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BannerViewModel&#39;</span><span class="p">,</span> <span class="s1">&#39;BindingContainerId&#39;</span><span class="p">,</span> <span class="s1">&#39;CurrentPage&#39;</span><span class="p">,</span> <span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;IsInactive&#39;</span><span class="p">,</span> <span class="s1">&#39;NavigationTarget&#39;</span><span class="p">,</span> <span class="s1">&#39;PageCount&#39;</span><span class="p">,</span> <span class="s1">&#39;Pages&#39;</span><span class="p">,</span> <span class="s1">&#39;ReturnToIndex&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;ReturnUrl&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;TitleCssClass&#39;</span><span class="p">]</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="n">remove_keys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="KA.save_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save persons products</span>
+
+<span class="sd">        :parameter dict products: products from get_person_products, should be sanitized in sanitize_products</span>
+<span class="sd">        :returns int status:</span>
+<span class="sd">        :returns dict result:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonProduct/Save&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">products</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+    <span class="c1"># def _sanitize_tandem_products(self):</span>
+    <span class="c1">#    pass</span>
+
+<div class="viewcode-block" id="KA.sanitize_person_products"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.sanitize_person_products">[docs]</a>    <span class="k">def</span> <span class="nf">sanitize_person_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">products</span><span class="p">,</span> <span class="n">org_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tandem</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sanitizes products by checking correct according to organization and if is tandem</span>
+
+<span class="sd">        :parameter int person_id: Person Id</span>
+<span class="sd">        :parameter dict products: Products from get_person_products (and sanitized?)</span>
+<span class="sd">        :parameter int org_id: OrgId, only when this is given can Unntak be set</span>
+<span class="sd">        :parameter boolean tandem: If this is a tandem person, True else False</span>
+<span class="sd">        :returns dict products: Sanitized products</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get all sports!</span>
+        <span class="n">sports</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">products</span><span class="p">[</span><span class="s1">&#39;PersonProductDetailSports&#39;</span><span class="p">]:</span>
+            <span class="n">sports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;ProductDetailId&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Modell &#39;modellmedlem&#39; Modellinformasjon&#39;, &#39;ProductDetailId&#39;: 15</span>
+        <span class="k">if</span> <span class="mi">15</span> <span class="ow">in</span> <span class="n">sports</span><span class="p">:</span>
+            <span class="n">age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_age</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="mi">25</span> <span class="ow">and</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">67</span><span class="p">:</span>
+                <span class="n">sports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+
+        <span class="n">cat_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">cat_blad_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">cat_unntak_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">]:</span>
+            <span class="n">cat_i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;CategoryName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Blad&#39;</span><span class="p">:</span>
+                <span class="n">cat_blad_i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">cat_orgs_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;Orgs&#39;</span><span class="p">]:</span>
+                    <span class="n">cat_orgs_i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">cat_details_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;ClubOrgId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">376</span><span class="p">:</span>
+
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;Details&#39;</span><span class="p">]:</span>
+                            <span class="n">cat_details_i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                            <span class="c1"># Select magazine for all members</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">tandem</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;ProductDetailId&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">sports</span><span class="p">:</span>
+                                <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">][</span><span class="n">cat_i</span><span class="p">][</span><span class="s1">&#39;Orgs&#39;</span><span class="p">][</span><span class="n">cat_orgs_i</span><span class="p">][</span><span class="s1">&#39;Details&#39;</span><span class="p">][</span><span class="n">cat_details_i</span><span class="p">][</span>
+                                    <span class="s1">&#39;Selected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+                            <span class="c1"># Deselect magazine for tandem</span>
+                            <span class="k">if</span> <span class="n">tandem</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;ProductDetailId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">11</span> <span class="ow">and</span> \
+                                    <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">][</span><span class="n">cat_i</span><span class="p">][</span><span class="s1">&#39;Orgs&#39;</span><span class="p">][</span><span class="n">cat_orgs_i</span><span class="p">][</span><span class="s1">&#39;Details&#39;</span><span class="p">][</span><span class="n">cat_details_i</span><span class="p">][</span>
+                                        <span class="s1">&#39;Selected&#39;</span><span class="p">]:</span>
+                                <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">][</span><span class="n">cat_i</span><span class="p">][</span><span class="s1">&#39;Orgs&#39;</span><span class="p">][</span><span class="n">cat_orgs_i</span><span class="p">][</span><span class="s1">&#39;Details&#39;</span><span class="p">][</span><span class="n">cat_details_i</span><span class="p">][</span>
+                                    <span class="s1">&#39;Selected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">elif</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;CategoryName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Unntak&#39;</span><span class="p">:</span>
+                <span class="n">cat_unntak_i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">cat_orgs_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;Orgs&#39;</span><span class="p">]:</span>
+                    <span class="n">cat_orgs_i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">cat_details_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+                    <span class="c1"># Vanlig medlem, org_id og tandem</span>
+                    <span class="c1"># For applications</span>
+                    <span class="k">if</span> <span class="n">org_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;ClubOrgId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">org_id</span><span class="p">:</span>
+
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;Details&#39;</span><span class="p">]:</span>
+                            <span class="n">cat_details_i</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;ProductDetailId&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">sports</span><span class="p">:</span>
+                                <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">][</span><span class="n">cat_i</span><span class="p">][</span><span class="s1">&#39;Orgs&#39;</span><span class="p">][</span><span class="n">cat_orgs_i</span><span class="p">][</span><span class="s1">&#39;Details&#39;</span><span class="p">][</span><span class="n">cat_details_i</span><span class="p">][</span>
+                                    <span class="s1">&#39;Selected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">products</span></div>
+
+<div class="viewcode-block" id="KA.magazines"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.magazines">[docs]</a>    <span class="k">def</span> <span class="nf">magazines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">products</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Legacy</span>
+<span class="sd">        @TODO Remove</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        27 	Luftsport 	235 	Ballongflyging</span>
+<span class="sd">        27 	Luftsport 	109 	Fallskjerm</span>
+<span class="sd">        27 	Luftsport 	110 	Hang- og paraglider</span>
+<span class="sd">        27 	Luftsport 	237 	Mikrofly</span>
+<span class="sd">        27 	Luftsport 	236 	Modellfly</span>
+<span class="sd">        27 	Luftsport 	238 	Motorfly</span>
+<span class="sd">        27 	Luftsport 	111 	Seilfly</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">products</span><span class="p">[</span><span class="s1">&#39;Categories&#39;</span><span class="p">]:</span>
+
+            <span class="k">if</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;CategoryName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Unntak&#39;</span><span class="p">:</span>
+
+                <span class="k">for</span> <span class="n">org</span> <span class="ow">in</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;Orgs&#39;</span><span class="p">]:</span>
+
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/ka/orgs/activity/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_URL</span><span class="p">,</span> <span class="n">org</span><span class="p">[</span><span class="s1">&#39;ClubOrgId&#39;</span><span class="p">]),</span>
+                                     <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">API_HEADERS</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                        <span class="n">club</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+                        <span class="nb">print</span><span class="p">(</span><span class="n">club</span><span class="p">)</span></div>
+
+    <span class="c1"># def _sanitize_orgs(self):</span>
+    <span class="c1">#    pass</span>
+
+<div class="viewcode-block" id="KA.get_person_licenses"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_licenses">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_licenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonLicense/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonLicenseViewModel.create(&#39;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Licenses&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="KA.get_person_competence"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_competence">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_competence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonCompetence/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonCompetenceViewModel.create(&#39;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Competences&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="KA.get_age"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_age">[docs]</a>    <span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get person from ka, calculate age by calendar year</span>
+
+<span class="sd">        :parameter int person_id: Person Id</span>
+<span class="sd">        :returns int age: Person age by calendar year</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_person</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="s1">&#39;BirthDate&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">birthdate</span> <span class="o">=</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;BirthDate&#39;</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">month</span> <span class="o">-</span> <span class="n">birthdate</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">day</span> <span class="o">-</span> <span class="n">birthdate</span><span class="o">.</span><span class="n">day</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">birthdate</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">birthdate</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="c1"># Return default</span>
+        <span class="k">return</span> <span class="mi">40</span></div>
+
+<div class="viewcode-block" id="KA.get_members"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members">[docs]</a>    <span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">member_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unntak</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></div>
+
+<div class="viewcode-block" id="KA.get_invoices"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get list of invoices</span>
+
+<span class="sd">        :returns list invoices: list of invoices from search</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="KA.get_applications"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_applications">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get membership applications</span>
+
+<span class="sd">        These are the applications by the members themselves</span>
+
+<span class="sd">        :returns int: http status code</span>
+<span class="sd">        :returns list: list of inbox items = applications</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;nif.memberMessagesMembershipApplicationsViewModel = Nif.PersonInboxLineListViewModel.create(&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KA.get_inbox"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_inbox">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        alias for get_applications</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_applications</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="KA.approve_application"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_application">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Approve an application</span>
+
+<span class="sd">        Sanitizes, approves and invoices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">application_orgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_application_orgs</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">application</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;Hei </span><span class="si">{0}</span><span class="s1">! Velkommen som medlem i </span><span class="si">{1}</span><span class="s1">.</span><span class="se">\r\n</span><span class="s1">&#39;</span> \
+                      <span class="s1">&#39;Du vil nå motta faktura for </span><span class="si">{2}</span><span class="s1"> i Min Idrett&#39;</span> \
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">application</span><span class="p">[</span><span class="s1">&#39;FullName&#39;</span><span class="p">],</span>
+                        <span class="n">application</span><span class="p">[</span><span class="s1">&#39;DescribingName&#39;</span><span class="p">],</span>
+                        <span class="n">application</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ConfirmationResponse&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                      <span class="s2">&quot;EndedMemberships&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                      <span class="s2">&quot;FunctionApplications&quot;</span><span class="p">:</span> <span class="n">application_orgs</span><span class="p">,</span>
+                      <span class="s2">&quot;Message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">,</span>
+                      <span class="s2">&quot;OrgTypeId&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                      <span class="s2">&quot;SendEmail&quot;</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">email_recepients</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;Items&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">application</span><span class="p">]</span>
+                      <span class="p">}</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages/HandleMembershipApplications&#39;</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_application_orgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get one application org - via post??&quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages/GetMembershipApplications&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">application</span><span class="p">]}</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="KA.get_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">get_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">):</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonActivity/Index/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Nif.PersonActivityViewModel.create(&#39;</span>
+        <span class="n">remove_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">,</span> <span class="s1">&#39;ReturnToIndex&#39;</span><span class="p">,</span> <span class="s1">&#39;ReturnUrl&#39;</span><span class="p">,</span> <span class="s1">&#39;BannerViewModel&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;CurrentPage&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;TitleCssClass&#39;</span><span class="p">,</span> <span class="s1">&#39;ErrorMessageViewModel&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Pages&#39;</span><span class="p">,</span> <span class="s1">&#39;NavigationTarget&#39;</span><span class="p">,</span> <span class="s1">&#39;PageCount&#39;</span><span class="p">,</span> <span class="s1">&#39;BindingContainerId&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_keys</span><span class="o">=</span><span class="n">remove_keys</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KA.select_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.select_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">select_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Select the club/org_id to get activities which we then can save later</span>
+
+<span class="sd">        :parameter int person_id: Person Id</span>
+<span class="sd">        :parameter int org_id: Org Id for organization (club)</span>
+<span class="sd">        :parameter dict activities: Activities got in get_person_activities</span>
+<span class="sd">        :returns int, dict status_code, activities: ?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">from_date</span> <span class="o">=</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FromDate&#39;</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">from_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;ExistingFederationFunctionFromDate&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                                                       <span class="s1">&#39;NewClubOrgId&#39;</span><span class="p">:</span> <span class="n">org_id</span><span class="p">,</span>
+                                                       <span class="s1">&#39;PassiveClubs&#39;</span><span class="p">:</span> <span class="p">{},</span>
+                                                       <span class="p">},</span>
+                  <span class="s1">&#39;FromDate&#39;</span><span class="p">:</span> <span class="n">from_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">.%m.%Y&#39;</span><span class="p">),</span>  <span class="c1"># Today/Now</span>
+                  <span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">:</span> <span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">],</span>
+                  <span class="s1">&#39;PersonId&#39;</span><span class="p">:</span> <span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;PersonId&#39;</span><span class="p">],</span>
+                  <span class="s1">&#39;SelectedOrgId&#39;</span><span class="p">:</span> <span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;SelectedOrgId&#39;</span><span class="p">],</span>
+                  <span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonActivity/SelectClub&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KA.save_person_activities"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.save_person_activities">[docs]</a>    <span class="k">def</span> <span class="nf">save_person_activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">selected_activities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;We process the selected in select_person_activities&quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">from_date</span> <span class="o">=</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FromDate&#39;</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">from_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;SelectedOrgId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">org_id</span><span class="p">:</span>
+
+            <span class="c1"># 5 klubb, 6 gruppe, 14 gren</span>
+            <span class="n">org_needed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+            <span class="n">org_nums</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">org_types</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">org_types_selected</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">org_types_not_selected</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;AvailableOrgs&#39;</span><span class="p">]:</span>
+                <span class="n">org_nums</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">org_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">&#39;OrgTypeId&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;Selected&#39;</span><span class="p">]:</span>
+                    <span class="n">org_types_selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">&#39;OrgTypeId&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">org_types_not_selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">&#39;OrgTypeId&#39;</span><span class="p">])</span>
+
+            <span class="n">org_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">org_types</span><span class="p">))</span>
+            <span class="n">org_types_selected</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">org_types_selected</span><span class="p">))</span>
+            <span class="n">org_types_not_selected</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">org_types_not_selected</span><span class="p">))</span>
+
+            <span class="c1"># print(org_types, org_types_selected, org_types_not_selected)</span>
+
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            if all(x in org_needed for x in org_types) and all(x in org_needed for x in org_types_selected):</span>
+<span class="sd">                print(&#39;Alle medlemsskap eksisterer!&#39;)</span>
+<span class="sd">                print(&#39;Alle medlemsskap er sjekket!&#39;)</span>
+<span class="sd">                print(org_types_selected)</span>
+<span class="sd">                pass</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">org_types_selected</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">org_needed</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">org_nums</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">org_types</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">org_needed</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;V[A] Mangler i valg av gren - men kan fikses&#39;</span><span class="p">)</span>
+
+                <span class="c1"># If not all needed orgs are selected we need to select!</span>
+                <span class="c1"># @TODO only select if one gren!!!</span>
+                <span class="n">orgs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;AvailableOrgs&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;Selected&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;OrgTypeId&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">org_needed</span><span class="p">:</span>
+                        <span class="n">o</span><span class="p">[</span><span class="s1">&#39;Selected&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="c1"># o[&#39;IsPassive&#39;] = False</span>
+                        <span class="c1"># o[&#39;IsOrgTypeSelectable&#39;] = True</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+[A] Selected&#39;</span><span class="p">,</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;ShortName&#39;</span><span class="p">])</span>
+                    <span class="n">orgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+                <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;AvailableOrgs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orgs</span>
+            <span class="k">elif</span> <span class="n">org_nums</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="mi">14</span> <span class="ow">in</span> <span class="n">org_types_selected</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;?[A] Kun gren valgt&#39;</span><span class="p">)</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;AvailableOrgs&#39;</span><span class="p">:</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;AvailableOrgs&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;FromDate&#39;</span><span class="p">:</span> <span class="n">from_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">.%m.%Y&#39;</span><span class="p">),</span>  <span class="c1"># Today/Now</span>
+                    <span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">:</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;HasMissingEmail&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;PersonId&#39;</span><span class="p">:</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;PersonId&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;SelectedOrgId&#39;</span><span class="p">:</span> <span class="n">selected_activities</span><span class="p">[</span><span class="s1">&#39;SelectedOrgId&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span>
+                <span class="p">},</span>
+
+            <span class="p">}</span>
+
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;PersonActivity/Save&#39;</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KA.check_person_activities_org"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.check_person_activities_org">[docs]</a>    <span class="k">def</span> <span class="nf">check_person_activities_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if acitivity org in application org&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">activities</span><span class="p">[</span><span class="s1">&#39;MembershipOrgSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;FederationClubSelectionViewModel&#39;</span><span class="p">][</span><span class="s1">&#39;ExistingClubs&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;Id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">org_id</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="KA.get_inbox_ended"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_inbox_ended">[docs]</a>    <span class="k">def</span> <span class="nf">get_inbox_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get inbox items for applications for ending membership</span>
+
+<span class="sd">        :returns list: inbox list of current applications to cancel membership(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages&#39;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;nif.memberMessagesEndedMembershipsViewModel = Nif.PersonInboxLineListViewModel.create(&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_application_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inboxline</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the application from inbox item (item from get_applications_ended)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages/GetEndedMemberships&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Items&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">inboxline</span><span class="p">]}</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="KA.approve_application_ended"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_application_ended">[docs]</a>    <span class="k">def</span> <span class="nf">approve_application_ended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inboxline</span><span class="p">,</span> <span class="n">refund</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Approve the cancellation - 1 application a time, or?</span>
+
+<span class="sd">        Will it refund invoices?</span>
+<span class="sd">        :parameter dict inboxline: one item from get_applications_ended</span>
+<span class="sd">        :parameter boolean refund: if to refund invoices or not, default True</span>
+<span class="sd">        :returns boolean result: result of approval</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the complete application including invoices</span>
+        <span class="n">status_application</span><span class="p">,</span> <span class="n">application</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_application_ended</span><span class="p">(</span><span class="n">inboxline</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">status_application</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+
+            <span class="c1"># Refund all invoices</span>
+            <span class="k">if</span> <span class="n">refund</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">application</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Invoices&#39;</span><span class="p">]:</span>
+                    <span class="n">application</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Invoices&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;IsChecked&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;EndedMemberships&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;Invoices&#39;</span><span class="p">:</span> <span class="n">application</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Invoices&#39;</span><span class="p">],</span> <span class="s1">&#39;PersonInboxLine&#39;</span><span class="p">:</span> <span class="n">inboxline</span><span class="p">}],</span>
+                      <span class="s1">&#39;FunctionApplications&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                      <span class="s1">&#39;Items&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">inboxline</span><span class="p">],</span>
+                      <span class="s1">&#39;OrgTypeId&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages/HandleEndedMemberships&#39;</span>
+
+            <span class="n">status</span><span class="p">,</span> <span class="n">approval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">approval</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">status_application</span><span class="p">,</span> <span class="n">application</span></div>
+
+<div class="viewcode-block" id="KA.get_applications_deceased"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_applications_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">get_applications_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get and process dead people&quot;&quot;&quot;</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;nif.memberMessagesDeceasedMembersViewModel = Nif.PersonInboxLineListViewModel.create(&#39;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Messages&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">key1</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Items&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KA.approve_deceased"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.approve_deceased">[docs]</a>    <span class="k">def</span> <span class="nf">approve_deceased</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Approve and refund invoices for deceased member&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_all_org_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="o">=</span><span class="mi">376</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get all invoicable products for org_id, sort accordingly&quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;SendInvoice/GetProductsForOrg/?orgId=</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KA_URL</span><span class="p">,</span> <span class="n">org_id</span><span class="p">)</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Build fees</span>
+        <span class="n">fees_new</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">fees_new</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;OrgId&#39;</span><span class="p">:</span> <span class="mi">376</span><span class="p">,</span>
+                             <span class="s1">&#39;OrgName&#39;</span><span class="p">:</span> <span class="s1">&#39;Norges Luftsportforbund&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Product&#39;</span><span class="p">:</span> <span class="n">f</span><span class="p">})</span>
+
+        <span class="n">fees_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fees_new</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="p">[</span><span class="s1">&#39;Product&#39;</span><span class="p">][</span><span class="s1">&#39;ProductTypeId&#39;</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">fees_sorted</span>
+
+    <span class="k">def</span> <span class="nf">_get_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get member search filter&quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Members/&#39;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                            <span class="n">key1</span><span class="o">=</span><span class="s1">&#39;var model = {&#39;</span><span class="p">,</span>
+                                            <span class="n">key2</span><span class="o">=</span><span class="s1">&#39;};&#39;</span><span class="p">,</span>
+                                            <span class="n">pre_pad</span><span class="o">=</span><span class="s1">&#39;{&#39;</span><span class="p">,</span>
+                                            <span class="n">post_pad</span><span class="o">=</span><span class="s1">&#39;}&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;MemberSearchRequest&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;MemberSearchRequest&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Error&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
+
+<div class="viewcode-block" id="KA.get_members_in_org"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members_in_org">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_in_org</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">org_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Members/Search&#39;</span>
+
+        <span class="n">flt_status</span><span class="p">,</span> <span class="n">flt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_filter</span><span class="p">()</span>
+
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;Size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9999</span>
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;ClubSearchModel&#39;</span><span class="p">][</span><span class="s1">&#39;SelectedClubs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;Id&#39;</span><span class="p">:</span> <span class="n">org_id</span><span class="p">})</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">flt</span><span class="p">)</span>
+
+        <span class="c1"># get(&#39;TotalResults&#39;, 0) =&gt; should be returned too....</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Members&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="KA.get_members_from_search"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.get_members_from_search">[docs]</a>    <span class="k">def</span> <span class="nf">get_members_from_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">from_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">from_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">to_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">to_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">from_date</span> <span class="o">&gt;</span> <span class="n">to_date</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">501</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Error&#39;</span><span class="p">:</span> <span class="s1">&#39;Dates from to are wrong order&#39;</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;Members/Search&#39;</span>
+
+        <span class="n">flt_status</span><span class="p">,</span> <span class="n">flt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_filter</span><span class="p">()</span>
+
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;Size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9999</span>
+
+        <span class="c1"># From date</span>
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;Criteria&#39;</span><span class="p">][</span><span class="mi">13</span><span class="p">][</span><span class="s1">&#39;CriteriaOptions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Checked&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;Criteria&#39;</span><span class="p">][</span><span class="mi">13</span><span class="p">][</span><span class="s1">&#39;CriteriaOptions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;FromDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">from_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">.%m.%Y&#39;</span><span class="p">)</span>
+        <span class="n">flt</span><span class="p">[</span><span class="s1">&#39;Criteria&#39;</span><span class="p">][</span><span class="mi">13</span><span class="p">][</span><span class="s1">&#39;CriteriaOptions&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ToDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">.%m.%Y&#39;</span><span class="p">)</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">flt</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;Members&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Members&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_ids</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets all the invoices to send</span>
+
+<span class="sd">        :parameter list person_ids: list of person_id&#39;s to get invoices</span>
+<span class="sd">        :returns list invoices: list of invoices objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;SendInvoice?ids=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">person_ids</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">key1</span> <span class="o">=</span> <span class="s1">&#39;var model = {&#39;</span>
+        <span class="n">key2</span> <span class="o">=</span> <span class="s1">&#39;};&#39;</span>
+        <span class="n">pre_pad</span> <span class="o">=</span> <span class="s1">&#39;{&#39;</span>
+        <span class="n">post_pad</span> <span class="o">=</span> <span class="s1">&#39;}&#39;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests_html</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                                            <span class="n">key1</span><span class="o">=</span><span class="n">key1</span><span class="p">,</span>
+                                            <span class="n">key2</span><span class="o">=</span><span class="n">key2</span><span class="p">,</span>
+                                            <span class="n">pre_pad</span><span class="o">=</span><span class="n">pre_pad</span><span class="p">,</span>
+                                            <span class="n">post_pad</span><span class="o">=</span><span class="n">post_pad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="KA.can_invoice"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.can_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">can_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="n">person_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_invoices</span><span class="p">(</span><span class="n">person_ids</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">person_ids</span> <span class="o">==</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PersonIds&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="KA.send_invoices"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.ka.KA.send_invoices">[docs]</a>    <span class="k">def</span> <span class="nf">send_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_ids</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This actually sends the invoice&quot;&quot;&quot;</span>
+
+        <span class="c1"># NIF can&#39;t handle non-unique person_ids, it will make invoice for each</span>
+        <span class="n">person_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">person_ids</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">person_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">inv_status</span><span class="p">,</span> <span class="n">invoices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_invoices</span><span class="p">(</span><span class="n">person_ids</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">inv_status</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">invoices</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;PersonIds&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">fees_status</span><span class="p">,</span> <span class="n">fees</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_org_products</span><span class="p">()</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Fees&#39;</span><span class="p">:</span> <span class="n">fees</span><span class="p">,</span>
+                          <span class="s1">&#39;FromEmailAddress&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;FromEmailAddress&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;InvoiceText&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;InvoiceText&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;PaymentDueDate&#39;</span><span class="p">:</span> <span class="n">dateutil</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+                              <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;PaymentDueDate&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                              <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">.%m.%Y&#39;</span><span class="p">),</span>
+                          <span class="s1">&#39;PersonIds&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;PersonIds&#39;</span><span class="p">],</span>
+                          <span class="s1">&#39;SendEmailAutomatically&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;SendEmailAutomatically&#39;</span><span class="p">],</span>  <span class="c1"># true/false</span>
+                          <span class="s1">&#39;SendPdfToEveryone&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;SendPdfToEveryone&#39;</span><span class="p">],</span>  <span class="c1"># true/false</span>
+                          <span class="s1">&#39;SendPdfToThoseWithoutEmail&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;SendPdfToThoseWithoutEmail&#39;</span><span class="p">],</span>
+                          <span class="c1"># true/false</span>
+                          <span class="s1">&#39;SendPdfWithKidAsEmail&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;SendPdfWithKidAsEmail&#39;</span><span class="p">],</span>  <span class="c1"># true/false</span>
+                          <span class="s1">&#39;SendSms&#39;</span><span class="p">:</span> <span class="n">invoices</span><span class="p">[</span><span class="s1">&#39;InvoiceRequest&#39;</span><span class="p">][</span><span class="s1">&#39;SendSms&#39;</span><span class="p">],</span>  <span class="c1"># true/false</span>
+                          <span class="s1">&#39;ToEmailAddress&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">email_recepients</span><span class="p">)</span>
+                          <span class="c1"># inv[&#39;InvoiceRequest&#39;][&#39;ToEmailAddress&#39;]</span>
+                          <span class="p">}</span>
+
+                <span class="k">if</span> <span class="n">notify</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;SendEmailAutomatically&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;SendPdfToEveryone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;SendPdfToThoseWithoutEmail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;SendPdfWithKidAsEmail&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;SendSms&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;SendInvoice/Send&#39;</span>
+
+                <span class="n">status</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">result</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">500</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="s1">&#39;false&#39;</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;result&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">}</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/luftsport/nif-tools">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Norges Luftsportforbund
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+ 
+<div>
+    Code is available on <a href="https://github.com/luftsport/nif-tools">https://github.com/luftsport/nif-tools</a>
+</div>
+<!-- your html code here -->
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nif_tools.passbuy &mdash; NIF Tools 0.7.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> NIF Tools
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">NIF Tools</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nif_tools.passbuy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nif_tools.passbuy</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+
+
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for exceptions in this module.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MaintenanceError"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.MaintenanceError">[docs]</a><span class="k">class</span> <span class="nc">MaintenanceError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="InputError"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.InputError">[docs]</a><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised for errors in the input.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        expression -- input expression in which the error occurred</span>
+<span class="sd">        message -- explanation of the error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span></div>
+
+
+<div class="viewcode-block" id="Passbuy"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy">[docs]</a><span class="k">class</span> <span class="nc">Passbuy</span><span class="p">:</span>
+    <span class="n">nif_jar</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">bp_jar</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">person_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;minidrett&#39;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="o">=</span> <span class="n">realm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">realm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mi&#39;</span><span class="p">,</span> <span class="s1">&#39;minidrett&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="o">=</span> <span class="s1">&#39;minidrett&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">login_page</span> <span class="o">=</span> <span class="s1">&#39;Login&#39;</span>
+        <span class="k">elif</span> <span class="n">realm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="s1">&#39;klubbadmin&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="o">=</span> <span class="s1">&#39;ka&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">login_page</span> <span class="o">=</span> <span class="s1">&#39;Home/Login&#39;</span>
+        <span class="k">elif</span> <span class="n">realm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sa&#39;</span><span class="p">,</span> <span class="s1">&#39;sportsadmin&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="o">=</span> <span class="s1">&#39;sa&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">login_page</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">login_page</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># Simple logic to verify not maintance</span>
+        <span class="k">if</span> <span class="n">verify</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_maintanance</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">MaintenanceError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is down for maintance&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Passbuy.is_maintanance"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.is_maintanance">[docs]</a>    <span class="k">def</span> <span class="nf">is_maintanance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if maintanance mode</span>
+
+<span class="sd">        NIF web (KA/MI/SA) gives normal http 200, need to check title</span>
+<span class="sd">        Also: re.search(&#39;(?&lt;=&lt;title&gt;).+?(?=&lt;/title&gt;)&#39;, mytext, re.DOTALL).group().strip()</span>
+
+<span class="sd">        :returns boolean is_maintanance:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://</span><span class="si">{}</span><span class="s1">.nif.no&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">503</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">html</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Vedlikehold&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">html</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Release&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Passbuy.login"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minidrett</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Passbuy.nif_realm"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.nif_realm">[docs]</a>    <span class="k">def</span> <span class="nf">nif_realm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://</span><span class="si">{}</span><span class="s1">.nif.no/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">cookies</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://</span><span class="si">{}</span><span class="s1">.nif.no/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">realm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">login_page</span><span class="p">),</span>
+                            <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                            <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+            <span class="n">r1</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                              <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                              <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">r1</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">r1</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                <span class="n">r2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                  <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                  <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">cookiejar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">r2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                    <span class="n">r3</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://id.nif.no</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                                      <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                      <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">r3</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r3</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Passbuy.buypass"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.buypass">[docs]</a>    <span class="k">def</span> <span class="nf">buypass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns</span>
+<span class="sd">        login url</span>
+<span class="sd">        challenge</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">mi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nif_realm</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mi</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                             <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bp_jar</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">cookies</span>
+                <span class="n">bp_html</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+                <span class="n">login_url</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;nif-login-form&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">challenge</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;challenge&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># Login</span>
+                <span class="n">login</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">login_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;challenge&#39;</span><span class="p">:</span> <span class="n">challenge</span><span class="p">,</span>
+                                                           <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                                           <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                                           <span class="s1">&#39;rememberMe&#39;</span><span class="p">:</span> <span class="s1">&#39;off&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;authMethod&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+                                      <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bp_jar</span><span class="p">,</span>
+                                      <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                                      <span class="p">)</span>
+                <span class="k">if</span> <span class="n">login</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">bp_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bp_jar</span><span class="p">,</span> <span class="n">login</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">login</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Passbuy.nif_id"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.nif_id">[docs]</a>    <span class="k">def</span> <span class="nf">nif_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">buypass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buypass</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">bp_html</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">buypass</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+            <span class="n">login_url</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;state&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">session_state</span> <span class="o">=</span> <span class="n">bp_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;session_state&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">login_url</span><span class="p">,</span>
+                                 <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span>
+                                       <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+                                       <span class="s1">&#39;session_state&#39;</span><span class="p">:</span> <span class="n">session_state</span><span class="p">},</span>
+                                 <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                 <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                <span class="n">callback</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://id.nif.no</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                                        <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                        <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                                        <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">callback</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">callback</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                    <span class="n">connect</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://id.nif.no</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">callback</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                                           <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                           <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                                           <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">connect</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">connect</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                        <span class="n">mi_html</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">connect</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+                        <span class="n">id_url</span> <span class="o">=</span> <span class="n">mi_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">id_token</span> <span class="o">=</span> <span class="n">mi_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;id_token&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">scope</span> <span class="o">=</span> <span class="n">mi_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;scope&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">state</span> <span class="o">=</span> <span class="n">mi_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;state&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">session_state</span> <span class="o">=</span> \
+                            <span class="n">mi_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;session_state&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+                        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">id_url</span><span class="p">,</span>
+                                             <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id_token&#39;</span><span class="p">:</span> <span class="n">id_token</span><span class="p">,</span>
+                                                   <span class="s1">&#39;scope&#39;</span><span class="p">:</span> <span class="n">scope</span><span class="p">,</span>
+                                                   <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
+                                                   <span class="s1">&#39;session_state&#39;</span><span class="p">:</span> <span class="n">session_state</span><span class="p">},</span>
+                                             <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                             <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">resp</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Passbuy.minidrett"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.minidrett">[docs]</a>    <span class="k">def</span> <span class="nf">minidrett</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">status</span><span class="p">,</span> <span class="n">nif_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nif_id</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">nif_id</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">realm</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mi&#39;</span><span class="p">,</span> <span class="s1">&#39;minidrett&#39;</span><span class="p">]:</span>
+                    <span class="c1"># Get profile and find person_id</span>
+                    <span class="n">profile</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://minidrett.nif.no/MyProfile/Profiles&#39;</span><span class="p">,</span>
+                                           <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                           <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span>
+                                           <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">profile</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                        <span class="c1"># soup = BeautifulSoup(profile.text, &#39;lxml&#39;)</span>
+                        <span class="c1"># profile_img_id = soup.find(alt=&#39;Profilbilde&#39;)[&#39;id&#39;]</span>
+                        <span class="c1"># self.person_id = int(profile_img_id.split(&#39;_&#39;)[1])</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                                <span class="n">profile</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;onclick=&quot;javaScript:DownloadCV(&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;);&quot;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span>
+
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Passbuy.ka_login"><a class="viewcode-back" href="../../nif_tools.html#nif_tools.passbuy.Passbuy.ka_login">[docs]</a>    <span class="k">def</span> <span class="nf">ka_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">person_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://ka.nif.no/Members&#39;</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">302</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+                <span class="n">frm</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                   <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span>
+                                   <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">frm</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">merge_cookies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nif_jar</span><span class="p">,</span> <span class="n">frm</span><span class="o">.</span><span class="n">cookies</span><span class="p">)</span>
+
+                    <span class="n">ka_html</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">frm</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+                    <span class="n">id_url</span> <span class="o">=</span> <span class="n">ka_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;action&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">id_token</span> <span class="o">=</span> <span class="n">ka_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;id_token&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">scope</span> <span class="o">=</span> <span class="n">ka_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;scope&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="n">ka_html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;state&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/luftsport/nif-tools">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Norges Luftsportforbund
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+ 
+<div>
+    Code is available on <a href="https://github.com/luftsport/nif-tools">https://github.com/luftsport/nif-tools</a>
+</div>
+<!-- your html code here -->
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
