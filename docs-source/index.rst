@@ -7,7 +7,7 @@ Welcome to Nif Tools's documentation!
 =====================================
 
 .. danger::
-   Incomplete module
+   Limited functionality for mi and sa
 
 
 ***************
