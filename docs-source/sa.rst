@@ -1,7 +1,7 @@
 sa module
 =========
 
-.. automodule:: sa
+.. automodule:: nif_tools.sa
     :members:
     :undoc-members:
     :show-inheritance:

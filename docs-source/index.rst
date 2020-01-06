@@ -31,7 +31,6 @@ Get list of clubs from KA::
    ka = KA(username='username', password='password')
    clubs = ka.get_clubs()
 
-
 .. toctree::
    :maxdepth: 1
    :caption: NIF Tools
@@ -52,7 +51,11 @@ Get list of clubs from KA::
 
    common
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Module index
 
+   modules
 
 Indices and tables
 ==================

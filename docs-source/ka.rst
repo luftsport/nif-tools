@@ -1,7 +1,7 @@
 ka module
 =========
 
-.. automodule:: ka
+.. automodule:: nif_tools.ka
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,7 +1,7 @@
 common module
 =============
 
-.. automodule:: common
+.. automodule:: nif_tools.common
     :members:
     :undoc-members:
     :show-inheritance:

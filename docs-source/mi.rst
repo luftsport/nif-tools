@@ -1,7 +1,7 @@
 mi module
 =========
 
-.. automodule:: mi
+.. automodule:: nif_tools.mi
     :members:
     :undoc-members:
     :show-inheritance:

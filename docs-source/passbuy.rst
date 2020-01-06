@@ -1,7 +1,7 @@
 passbuy module
 ==============
 
-.. automodule:: passbuy
+.. automodule:: nif_tools.passbuy
     :members:
     :undoc-members:
     :show-inheritance:
