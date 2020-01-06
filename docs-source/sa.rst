@@ -1,5 +1,5 @@
-sa module
-=========
+sa module (Sportsadmin)
+=======================
 
 .. danger::
     Work in progress

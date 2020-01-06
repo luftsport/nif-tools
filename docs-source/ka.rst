@@ -1,5 +1,5 @@
-ka module
-=========
+ka module (Klubbadmin)
+======================
 
 .. automodule:: nif_tools.ka
     :members:

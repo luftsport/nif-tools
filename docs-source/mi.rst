@@ -1,5 +1,5 @@
-mi module
-=========
+mi module (MinIdrett)
+=====================
 
 .. danger::
     Work in progress

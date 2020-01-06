@@ -15,6 +15,9 @@ NIF Tools
 ***************
 A set of tools based upon requests to programatically interact with the web instances at minidrett, ka and sa.nif.no.
 
+This is a python module which offers a method of interacting with membership data and services without having access to the webservices offered by NIF.
+
+Norges Luftsportforbund has built several services around the tools like an Oauth2 authentication server (passbuy), automatic handling of inbox (ka), verifying correct products etc
 
 Login::
 
