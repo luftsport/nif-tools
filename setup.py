@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/luftsport/nif-tools",
     packages=setuptools.find_packages(),
-    install_requires=['requests', 'dateutil', 'bs4'],
+    install_requires=['requests', 'python-dateutil', 'bs4'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
