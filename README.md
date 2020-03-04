@@ -4,7 +4,7 @@ A set of tools based upon `requests` to programatically interact with the web in
 Logging in and retrieving a valid federation cookie is done with the `passbuy` class, and all classes depend upon this.
 ## Install
 ```
-pip install git+https://github/luftsport/nif-tools
+pip install git+https://github.com/luftsport/nif-tools
 ```
 
 ## Examples
