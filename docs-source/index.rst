@@ -21,7 +21,7 @@ Norges Luftsportforbund has built several services around the tools like an Oaut
 
 Login::
 
-   from nif-tools import passbuy
+   from nif_tools import passbuy
 
    pb = Passbuy(username='username', password='password', realm='mi', verify=True)
    status, person_id, fed_cookie_jar = pb.login()
