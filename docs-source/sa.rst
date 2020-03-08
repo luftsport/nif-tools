@@ -1,4 +1,4 @@
-sa module (Sportsadmin)
+Sportsadmin - sa module
 =======================
 
 .. danger::

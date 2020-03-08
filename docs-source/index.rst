@@ -23,7 +23,7 @@ Login::
 
    from nif-tools import passbuy
 
-   pb = Passbuy(username='username', password='password', realm='ka', verify=True)
+   pb = Passbuy(username='username', password='password', realm='mi', verify=True)
    status, person_id, fed_cookie_jar = pb.login()
    if status is True:
        print('Person Id:', person_id)
@@ -69,6 +69,11 @@ Indices and tables
 
 
 Recent Changes
---------------
+==================
+
+.. git_commit_detail::
+    :branch:
+    :commit:
 
 .. git_changelog::
+

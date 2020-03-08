@@ -1,4 +1,4 @@
-ka module (Klubbadmin)
+Klubbadmin - ka module
 ======================
 
 .. automodule:: nif_tools.ka
