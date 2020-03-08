@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="mi module" href="mi.html" /> 
+    <link rel="next" title="Min Idrett - mi module" href="mi.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,9 +85,9 @@
             
               <p class="caption"><span class="caption-text">NIF Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="mi.html">mi module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ka.html">ka module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sa.html">sa module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mi.html">Min Idrett - mi module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ka.html">Klubbadmin - ka module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sa.html">Sportsadmin - sa module</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Passbuy</span></p>
 <ul>
@@ -172,10 +172,12 @@
 <div class="section" id="nif-tools">
 <h2>NIF Tools<a class="headerlink" href="#nif-tools" title="Permalink to this headline">¶</a></h2>
 <p>A set of tools based upon requests to programatically interact with the web instances at minidrett, ka and sa.nif.no.</p>
+<p>This is a python module which offers a method of interacting with membership data and services without having access to the webservices offered by NIF.</p>
+<p>Norges Luftsportforbund has built several services around the tools like an Oauth2 authentication server (passbuy), automatic handling of inbox (ka), verifying correct products etc</p>
 <p>Login:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nif</span><span class="o">-</span><span class="n">tools</span> <span class="kn">import</span> <span class="nn">passbuy</span>
 
-<span class="n">pb</span> <span class="o">=</span> <span class="n">Passbuy</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;ka&#39;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">Passbuy</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">realm</span><span class="o">=</span><span class="s1">&#39;mi&#39;</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">status</span><span class="p">,</span> <span class="n">person_id</span><span class="p">,</span> <span class="n">fed_cookie_jar</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Person Id:&#39;</span><span class="p">,</span> <span class="n">person_id</span><span class="p">)</span>
@@ -190,9 +192,9 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">NIF Tools</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="mi.html">mi module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ka.html">ka module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sa.html">sa module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mi.html">Min Idrett - mi module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ka.html">Klubbadmin - ka module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sa.html">Sportsadmin - sa module</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -222,7 +224,20 @@
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+</div>
+<div class="section" id="recent-changes">
+<h1>Recent Changes<a class="headerlink" href="#recent-changes" title="Permalink to this headline">¶</a></h1>
+<p><dl class="field-list">
+<dt class="field-odd">Branch</dt>
+<dd class="field-odd"><em>master</em></dd>
+<dt class="field-even">Commit</dt>
+<dd class="field-even"><p><a class="reference external" href="git&#64;github.com:luftsport/nif-tools/commit/e21cf0c7ea79798a7508431ab10717faa270ae04">e21cf0c</a></p>
+</dd>
+</dl>
+</p>
 <ul class="simple">
+<li><p><strong>Adding dist</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 21:31:57</em></p></li>
+<li><p><strong>Cleaning up docs</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 21:31:46</em></p></li>
 <li><p><strong>Adding note about limited functionality</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:55:21</em></p></li>
 <li><p><strong>Updated docs</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:46:44</em></p></li>
 <li><p><strong>Doc rst files</strong><span> by </span><em>Einar Huseby</em><span> at </span><em>2020-01-06 20:36:58</em></p></li>
@@ -244,7 +259,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="mi.html" class="btn btn-neutral float-right" title="mi module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="mi.html" class="btn btn-neutral float-right" title="Min Idrett - mi module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
