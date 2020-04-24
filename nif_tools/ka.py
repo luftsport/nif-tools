@@ -766,7 +766,7 @@ class KA:
         status, result = self.post(url=url, params=flt)
 
         # get('TotalResults', 0) => should be returned too....
-        return status, result.get('Members', [])
+        return status, result.get('SearchResult', {}).get('members', [])
 
     def get_members_from_search(self, from_date=None, to_date=None):
 
@@ -792,10 +792,7 @@ class KA:
 
         status, result = self.post(url=url, params=flt)
 
-        if 'Members' in result:
-            return status, result['Members']
-        else:
-            return status, result
+        return status, result.get('SearchResult', {}).get('members', [])
 
     def _get_invoices(self, person_ids) -> (int, dict):
         """Gets all the invoices to send
