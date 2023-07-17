@@ -18,6 +18,11 @@ import dateutil.parser
 from pprint import pprint
 import datetime
 from nif_tools.common import get_headers
+from bs4 import BeautifulSoup
+import re
+from packaging import version
+
+MAX_SUPPORTED_VERSION = '3.73.8511'
 
 
 class KA:
@@ -50,6 +55,25 @@ class KA:
 
     def get_person_id(self):
         return self.person_id
+
+    def get_version(self) -> (str, str):
+        try:
+            r = requests.get(self.KA_URL)
+            soup = BeautifulSoup(r.text, 'html.parser')
+            p = soup.findAll('p', {'hidden': True})
+            versions = re.findall('[0-9]+\.[0-9]+\.?[0-9]+\.?[0-9]*', str(p[0]))
+            return versions[0], versions[1]
+        except Exception as e:
+            pass
+
+        return None, None
+
+    def is_version_supported(self) -> bool:
+        v, b = self.get_version()
+        if v is not None:
+            return version.parse(v) <= version.parse(MAX_SUPPORTED_VERSION)
+
+        return False
 
     def req(self, r):
         """Just parse the request object
