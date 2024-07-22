@@ -18,17 +18,24 @@ import dateutil.parser
 from pprint import pprint
 import datetime
 from nif_tools.common import get_headers
+from bs4 import BeautifulSoup
+import re
+from packaging import version
 
+MAX_SUPPORTED_VERSION = '3.73.8511'
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 class KA:
-    def __init__(self, username, password, realm='ka', email_recepients=[]):
+    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False):
         self.username = username
         self.KA_REALM = realm
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
+        self.ssl_verify = ssl_verify
 
         pb = Passbuy(username=username,
                      password=password,
-                     realm=self.KA_REALM)
+                     realm=self.KA_REALM,
+                     ssl_verify=self.ssl_verify)
         status, self.person_id, self.fed_cookie = pb.login()
 
         if status is not True:
@@ -50,6 +57,25 @@ class KA:
 
     def get_person_id(self):
         return self.person_id
+
+    def get_version(self) -> (str, str):
+        try:
+            r = requests.get(self.KA_URL, verify=self.ssl_verify)
+            soup = BeautifulSoup(r.text, 'html.parser')
+            p = soup.findAll('p', {'hidden': True})
+            versions = re.findall('[0-9]+\.[0-9]+\.?[0-9]+\.?[0-9]*', str(p[0]))
+            return versions[0], versions[1]
+        except Exception as e:
+            pass
+
+        return None, None
+
+    def is_version_supported(self) -> bool:
+        v, b = self.get_version()
+        if v is not None:
+            return version.parse(v) <= version.parse(MAX_SUPPORTED_VERSION)
+
+        return False
 
     def req(self, r):
         """Just parse the request object
@@ -99,7 +125,8 @@ class KA:
         r = requests.post('{}/{}'.format(self.KA_URL, url),
                           json=params,
                           headers=self.KA_HEADERS,
-                          cookies=self.fed_cookie)
+                          cookies=self.fed_cookie,
+                          verify=self.ssl_verify)
 
         status, result = self.req(r)
         result = self.remove_keys(result, remove_keys)
@@ -120,7 +147,8 @@ class KA:
         r = requests.get('{}/{}'.format(self.KA_URL, url),
                          json=params,
                          headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie)
+                         cookies=self.fed_cookie,
+                         verify=self.ssl_verify)
 
         status, result = self.req(r)
         result = self.remove_keys(result, remove_keys)
@@ -135,7 +163,8 @@ class KA:
 
         r = requests.get('{}/{}'.format(self.KA_URL, url),
                          headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie)
+                         cookies=self.fed_cookie,
+                         verify=self.ssl_verify)
 
         if r.status_code == 200:
             try:
@@ -155,7 +184,7 @@ class KA:
         """Get member search filter"""
 
         url = '{}/Members/'.format(self.KA_URL)
-        page = requests.get(url, cookies=self.fed_cookie, headers=self.KA_HEADERS)
+        page = requests.get(url, cookies=self.fed_cookie, headers=self.KA_HEADERS, verify=self.ssl_verify)
         en = page.text.split('var model = {')
         to = en[1].split('};')
         flt = json.loads("{%s}" % to[0])
@@ -178,7 +207,8 @@ class KA:
         resp = requests.post('{}/Members/SearchClub'.format(self.KA_URL),
                              cookies=self.fed_cookie,
                              json=clubs_filter,
-                             headers=self.KA_HEADERS)
+                             headers=self.KA_HEADERS,
+                             verify=self.ssl_verify)
 
         if resp.status_code == 200:
             return resp.json()['Items']
@@ -247,7 +277,8 @@ class KA:
         resp = requests.post('{}/PersonInvoice/ChangeYear'.format(self.KA_URL),
                              json={'Year': year, 'PersonId': person_id},
                              headers=self.KA_HEADERS,
-                             cookies=self.fed_cookie)
+                             cookies=self.fed_cookie,
+                             verify=self.ssl_verify)
 
         if resp.status_code == 200:
             return True, resp.json()
@@ -409,7 +440,8 @@ class KA:
                 for org in cat['Orgs']:
 
                     r = requests.get(url='{}/ka/orgs/activity/{}'.format(self.API_URL, org['ClubOrgId']),
-                                     headers=self.API_HEADERS)
+                                     headers=self.API_HEADERS,
+                                     verify=self.ssl_verify)
 
                     if r.status_code == 200:
                         club = r.json()
