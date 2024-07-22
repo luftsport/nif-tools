@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -29,12 +30,13 @@ class Passbuy:
     bp_jar = None
     person_id = None
 
-    def __init__(self, username, password, realm='minidrett', verify=True):
+    def __init__(self, username, password, realm='minidrett', verify=True, ssl_verify=False):
 
         self.username = username
         self.password = password
         self.realm = realm
         self.person_id = None
+        self.ssl_verify = ssl_verify
 
         if realm in ['mi', 'minidrett']:
             self.realm = 'minidrett'
@@ -62,7 +64,7 @@ class Passbuy:
         :returns boolean is_maintanance:
         """
 
-        r = requests.get('https://{}.nif.no'.format(self.realm))
+        r = requests.get('https://{}.nif.no'.format(self.realm), verify=self.ssl_verify)
 
         if r.status_code == 503:
             return True
@@ -81,13 +83,14 @@ class Passbuy:
 
     def nif_realm(self):
 
-        r = requests.get('https://{}.nif.no/'.format(self.realm))
+        r = requests.get('https://{}.nif.no/'.format(self.realm), verify=self.ssl_verify)
 
         self.nif_jar = r.cookies
 
         resp = requests.get('https://{}.nif.no/{}'.format(self.realm, self.login_page),
                             cookies=self.nif_jar,
-                            allow_redirects=False)
+                            allow_redirects=False,
+                            verify=self.ssl_verify)
         self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
         if resp.status_code == 302:
@@ -105,7 +108,8 @@ class Passbuy:
                 if r2.status_code == 302:
                     r3 = requests.get('https://id.nif.no{}'.format(r2.headers.get('Location', '')),
                                       cookies=self.nif_jar,
-                                      allow_redirects=False)
+                                      allow_redirects=False,
+                                      verify=self.ssl_verify)
                     self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, r3.cookies)
                     return True, r3
 
@@ -122,7 +126,8 @@ class Passbuy:
         if status is True:
 
             r = requests.get(mi.headers.get('Location', ''),
-                             allow_redirects=False)
+                             allow_redirects=False,
+                             verify=self.ssl_verify)
 
             if r.status_code == 200:
                 self.bp_jar = r.cookies
@@ -137,8 +142,8 @@ class Passbuy:
                                                            'rememberMe': 'off',
                                                            'authMethod': ''},
                                       cookies=self.bp_jar,
-                                      allow_redirects=False
-                                      )
+                                      allow_redirects=False,
+                                      verify=self.ssl_verify)
                 if login.status_code == 200:
                     self.bp_jar = requests.cookies.merge_cookies(self.bp_jar, login.cookies)
                     return True, login
@@ -161,23 +166,25 @@ class Passbuy:
                                        'state': state,
                                        'session_state': session_state},
                                  cookies=self.nif_jar,
-                                 allow_redirects=False)
+                                 allow_redirects=False,
+                                 verify=self.ssl_verify)
 
             if resp.status_code == 302:
                 self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
                 callback = requests.get(url='https://id.nif.no{}'.format(resp.headers.get('Location', '')),
                                         cookies=self.nif_jar,
-                                        allow_redirects=False
-                                        )
+                                        allow_redirects=False,
+                                        verify=self.ssl_verify)
+                                        
 
                 if callback.status_code == 302:
                     self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, callback.cookies)
 
                     connect = requests.get(url='https://id.nif.no{}'.format(callback.headers.get('Location', '')),
                                            cookies=self.nif_jar,
-                                           allow_redirects=False
-                                           )
+                                           allow_redirects=False,
+                                           verify=self.ssl_verify)
                     if connect.status_code == 200:
                         self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, connect.cookies)
 
@@ -195,7 +202,8 @@ class Passbuy:
                                                    'state': state,
                                                    'session_state': session_state},
                                              cookies=self.nif_jar,
-                                             allow_redirects=False)
+                                             allow_redirects=False,
+                                             verify=self.ssl_verify)
                         if resp.status_code == 302:
                             self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
@@ -210,8 +218,8 @@ class Passbuy:
         if status is True:
             resp = requests.get(url=nif_id.headers.get('Location', ''),
                                 cookies=self.nif_jar,
-                                allow_redirects=False
-                                )
+                                allow_redirects=False,
+                                verify=self.ssl_verify)
             if resp.status_code == 302:
                 self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
@@ -219,8 +227,8 @@ class Passbuy:
                     # Get profile and find person_id
                     profile = requests.get(url='https://minidrett.nif.no/MyProfile/Profiles',
                                            cookies=self.nif_jar,
-                                           allow_redirects=False
-                                           )
+                                           allow_redirects=False,
+                                           verify=self.ssl_verify)
 
                     if profile.status_code == 200:
                         # soup = BeautifulSoup(profile.text, 'lxml')
@@ -240,13 +248,14 @@ class Passbuy:
 
         if self.person_id is not None:
 
-            r = requests.get('https://ka.nif.no/Members', cookies=self.nif_jar, allow_redirects=False)
+            r = requests.get('https://ka.nif.no/Members', cookies=self.nif_jar, allow_redirects=False, verify=self.ssl_verify)
 
             if r.status_code == 302:
                 self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, r.cookies)
                 frm = requests.get(r.headers.get('Location', ''),
                                    cookies=self.nif_jar,
-                                   allow_redirects=False)
+                                   allow_redirects=False,
+                                   verify=self.ssl_verify)
 
                 if frm.status_code == 200:
                     self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, frm.cookies)
