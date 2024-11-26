@@ -63,7 +63,7 @@ class KA:
             r = requests.get(self.KA_URL, verify=self.ssl_verify)
             soup = BeautifulSoup(r.text, 'html.parser')
             p = soup.findAll('p', {'hidden': True})
-            versions = re.findall('[0-9]+\.[0-9]+\.?[0-9]+\.?[0-9]*', str(p[0]))
+            versions = re.findall(r'[0-9]+\.[0-9]+\.?[0-9]+\.?[0-9]*', str(p[0]))
             return versions[0], versions[1]
         except Exception as e:
             pass

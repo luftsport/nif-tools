@@ -87,6 +87,7 @@ class Passbuy:
 
         self.nif_jar = r.cookies
 
+        # Login page
         resp = requests.get('https://{}.nif.no/{}'.format(self.realm, self.login_page),
                             cookies=self.nif_jar,
                             allow_redirects=False,
@@ -94,18 +95,24 @@ class Passbuy:
         self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
         if resp.status_code == 302:
+
+            # id.nif.no/connect/authorize
             r1 = requests.get(resp.headers.get('Location', ''),
                               cookies=self.nif_jar,
                               allow_redirects=False)
             self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, r1.cookies)
 
             if r1.status_code == 302:
+
+                # id.nif.no/Account/Login
                 r2 = requests.get(r1.headers.get('Location', ''),
                                   cookies=self.nif_jar,
                                   allow_redirects=False)
                 cookiejar = requests.cookies.merge_cookies(self.nif_jar, r2.cookies)
 
                 if r2.status_code == 302:
+
+                    # id.nif.no/ExternalLogin/Challenge
                     r3 = requests.get('https://id.nif.no{}'.format(r2.headers.get('Location', '')),
                                       cookies=self.nif_jar,
                                       allow_redirects=False,
@@ -125,6 +132,7 @@ class Passbuy:
 
         if status is True:
 
+            # auth.nif.buypass.no/auth/realms/nif/protocol/openid-connect/auth
             r = requests.get(mi.headers.get('Location', ''),
                              allow_redirects=False,
                              verify=self.ssl_verify)
@@ -135,18 +143,35 @@ class Passbuy:
                 login_url = bp_html.find('form', attrs={'class': 'nif-login-form'}).get_attribute_list('action')[0]
                 challenge = bp_html.find('input', attrs={'name': 'challenge'}).get_attribute_list('value')[0]
 
-                # Login
-                login = requests.post(url=login_url, data={'challenge': challenge,
-                                                           'password': self.password,
+                # Login 1
+                login1 = requests.post(url=login_url, data={'challenge': challenge,
                                                            'username': self.username,
                                                            'rememberMe': 'off',
+                                                           'origin_url': '',
                                                            'authMethod': ''},
                                       cookies=self.bp_jar,
                                       allow_redirects=False,
                                       verify=self.ssl_verify)
-                if login.status_code == 200:
-                    self.bp_jar = requests.cookies.merge_cookies(self.bp_jar, login.cookies)
-                    return True, login
+                if login1.status_code == 200:
+                    self.bp_jar = requests.cookies.merge_cookies(self.bp_jar, login1.cookies)
+
+                    bp2_html = BeautifulSoup(login1.text, 'lxml')
+                    login_url2 = bp2_html.find('form', attrs={'class': 'nif-login-form'}).get_attribute_list('action')[0]
+                    challenge2 = bp2_html.find('input', attrs={'name': 'challenge'}).get_attribute_list('value')[0]
+
+                    # Login 1
+                    login2 = requests.post(url=login_url2, data={'challenge': challenge2,
+                                                                'password': self.password,
+                                                                'rememberMe': 'off',
+                                                                'origin_url': '',
+                                                                'authMethod': ''},
+                                           cookies=self.bp_jar,
+                                           allow_redirects=False,
+                                           verify=self.ssl_verify)
+                    if login2.status_code == 200:
+                        self.bp_jar = requests.cookies.merge_cookies(self.bp_jar, login2.cookies)
+
+                        return True, login2
 
         return False, None
 
@@ -193,8 +218,7 @@ class Passbuy:
                         id_token = mi_html.find('input', attrs={'name': 'id_token'}).get_attribute_list('value')[0]
                         scope = mi_html.find('input', attrs={'name': 'scope'}).get_attribute_list('value')[0]
                         state = mi_html.find('input', attrs={'name': 'state'}).get_attribute_list('value')[0]
-                        session_state = \
-                            mi_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
+                        session_state =  mi_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
 
                         resp = requests.post(url=id_url,
                                              data={'id_token': id_token,
@@ -235,8 +259,7 @@ class Passbuy:
                         # profile_img_id = soup.find(alt='Profilbilde')['id']
                         # self.person_id = int(profile_img_id.split('_')[1])
                         try:
-                            self.person_id = int(
-                                profile.text.split('onclick="javaScript:DownloadCV(')[1].split(');"')[0])
+                            self.person_id = int(profile.text.split('onclick="javaScript:DownloadCV(')[1].split(');"')[0])
                         except:
                             self.person_id = None
 
