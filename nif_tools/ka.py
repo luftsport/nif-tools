@@ -25,6 +25,7 @@ from packaging import version
 MAX_SUPPORTED_VERSION = '3.73.8511'
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
+
 class KA:
     def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False):
         self.username = username
@@ -176,7 +177,7 @@ class KA:
                 return r.status_code, result
             except Exception as e:
                 print('Error ', e)
-                return r.status_code, e
+                return r.status_code, str(e)
 
         return r.status_code, {}
 
@@ -909,3 +910,54 @@ class KA:
                 return 500, {'result': 'false'}
         else:
             return 200, {'result': 'true'}
+
+    def get_invoice_jobs(self):
+        # /SendInvoice/Log
+
+        """Gets all the invoices to send
+
+        :parameter list person_ids: list of person_id's to get invoices
+        :returns list invoices: list of invoices objects
+        """
+
+        url = 'SendInvoice/Log'
+        params = None
+        key1 = 'var model = {"Jobs":['  # 'var model = {'
+        key2 = '"}],"Title":'
+        pre_pad = '['
+        post_pad = '"}]'
+
+        status, result = self.requests_html(url=url,
+                                            params=params,
+                                            key1=key1,
+                                            key2=key2,
+                                            pre_pad=pre_pad,
+                                            post_pad=post_pad)
+        return status, result
+
+        if status in [200, 201]:
+            return True, result
+
+        return False, []
+
+    def get_invoice_job(self, job_id):
+        # 1804328
+        url = f'SendInvoice/LogDetail/{job_id}'
+        params = None
+        key1 = 'var model = {"'
+        key2 = '};'
+        pre_pad = '{"'
+        post_pad = '}'
+
+        status, result = self.requests_html(url=url,
+                                            params=params,
+                                            key1=key1,
+                                            key2=key2,
+                                            pre_pad=pre_pad,
+                                            post_pad=post_pad)
+        return status, result
+
+        if status in [200, 201]:
+            return True, result
+
+        return False, {}
