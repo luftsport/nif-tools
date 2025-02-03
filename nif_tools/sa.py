@@ -57,12 +57,14 @@ class SA:
                     labels.update(dict(zip(l, v)))
 
             # org logo
-            img = soup.select('#image_upload_preview')[0]
-            if img and 'src' in img.attrs:
-                org_logo = img['src'].strip('data:image/png;base64,')
-            else:
+            try:
+                img = soup.select('#image_upload_preview')[0]
+                if img and 'src' in img.attrs:
+                    org_logo = img['src'].strip('data:image/png;base64,')
+                else:
+                    org_logo = None
+            except:
                 org_logo = None
-
 
             # table data
             tables = soup.find_all('table')
