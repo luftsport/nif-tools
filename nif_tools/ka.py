@@ -21,28 +21,46 @@ from nif_tools.common import get_headers
 from bs4 import BeautifulSoup
 import re
 from packaging import version
+import pickle
+import os.path
 
 MAX_SUPPORTED_VERSION = '3.73.8511'
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 
 class KA:
-    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False):
+    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None):
         self.username = username
         self.KA_REALM = realm
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
 
-        pb = Passbuy(username=username,
-                     password=password,
-                     realm=self.KA_REALM,
-                     ssl_verify=self.ssl_verify)
-        status, self.person_id, self.fed_cookie = pb.login()
-
+        status, self.person_id, self.fed_cookie = self._login(username, password, cookie_file)
         if status is not True:
             raise Exception('Could not log in via passbuy')
 
         self.email_recepients = email_recepients
+
+    def _login(self, username, password, cookie_file=None):
+
+        if cookie_file is not None and os.path.isfile(cookie_file) is True:
+            with open(cookie_file, 'rb') as f:
+                content = pickle.load(f)
+                if list(content['fed_cookie'])[len(content['fed_cookie']) - 1].expires > datetime.datetime.now().timestamp():
+                    return True, content['person_id'], content['fed_cookie']
+
+        pb = Passbuy(username=username,
+                     password=password,
+                     realm=self.KA_REALM,
+                     ssl_verify=self.ssl_verify)
+
+        status, person_id, fed_cookie = pb.login()
+
+        if status is True and cookie_file is not None:
+            with open(cookie_file, 'wb') as f:
+                pickle.dump({'person_id': person_id, 'fed_cookie': fed_cookie}, f)
+
+        return status, person_id, fed_cookie
 
     def get_realm(self):
         return self.KA_REALM

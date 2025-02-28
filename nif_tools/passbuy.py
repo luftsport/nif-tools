@@ -29,6 +29,7 @@ class Passbuy:
     nif_jar = None
     bp_jar = None
     person_id = None
+    code = None
 
     def __init__(self, username, password, realm='minidrett', verify=True, ssl_verify=False):
 
@@ -182,12 +183,12 @@ class Passbuy:
         if status is True:
             bp_html = BeautifulSoup(buypass.text, 'lxml')
             login_url = bp_html.find('form').get_attribute_list('action')[0]
-            code = bp_html.find('input', attrs={'name': 'code'}).get_attribute_list('value')[0]
+            self.code = bp_html.find('input', attrs={'name': 'code'}).get_attribute_list('value')[0]
             state = bp_html.find('input', attrs={'name': 'state'}).get_attribute_list('value')[0]
             session_state = bp_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
 
             resp = requests.post(url=login_url,
-                                 data={'code': code,
+                                 data={'code': self.code,
                                        'state': state,
                                        'session_state': session_state},
                                  cookies=self.nif_jar,
@@ -238,7 +239,7 @@ class Passbuy:
     def minidrett(self):
 
         status, nif_id = self.nif_id()
-
+        print(nif_id.headers, nif_id.text, nif_id.cookies)
         if status is True:
             resp = requests.get(url=nif_id.headers.get('Location', ''),
                                 cookies=self.nif_jar,
