@@ -11,11 +11,11 @@ class MI:
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
 
-        pb = Passbuy(username=username,
+        self.passbuy = Passbuy(username=username,
                      password=password,
                      realm=self.KA_REALM,
                      ssl_verify=self.ssl_verify)
-        status, self.person_id, self.fed_cookie = pb.login()
+        status, self.person_id, self.fed_cookie = self.passbuy.login()
 
         if status is not True:
             raise Exception('Could not log in via passbuy')
