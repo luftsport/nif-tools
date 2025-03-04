@@ -239,7 +239,7 @@ class Passbuy:
     def minidrett(self):
 
         status, nif_id = self.nif_id()
-        print(nif_id.headers, nif_id.text, nif_id.cookies)
+        # print(nif_id.headers, nif_id.text, nif_id.cookies)
         if status is True:
             resp = requests.get(url=nif_id.headers.get('Location', ''),
                                 cookies=self.nif_jar,
