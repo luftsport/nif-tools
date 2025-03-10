@@ -563,9 +563,9 @@ class KA:
         status3, deceased = self.get_applications_deceased()
 
         return 200, {
-            'applications': applications if status1 is True else [],
-            'ended': ended if status2 is True else [],
-            'deceases': deceased if status3 is True else []
+            'applications': applications if status1 is 200 else [],
+            'ended': ended if status2 is 200 else [],
+            'deceases': deceased if status3 is 200 else []
         }
 
     def approve_application(self, application):
