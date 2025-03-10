@@ -12,7 +12,8 @@
 
 """
 
-import requests, json
+import requests
+import json
 from nif_tools.passbuy import Passbuy
 import dateutil.parser
 from pprint import pprint
@@ -29,11 +30,13 @@ requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.
 
 
 class KA:
-    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None):
+    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None, use_cache=False):
         self.username = username
         self.KA_REALM = realm
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
+        self.use_cache = use_cache
+        self.cache = {}
 
         status, self.person_id, self.fed_cookie = self._login(username, password, cookie_file)
         if status is not True:
@@ -61,6 +64,9 @@ class KA:
                 pickle.dump({'person_id': person_id, 'fed_cookie': fed_cookie}, f)
 
         return status, person_id, fed_cookie
+
+    def _get_cache_hash(self, url, params):
+        return hash(url + json.dumps(params, sort_keys=True))
 
     def get_realm(self):
         return self.KA_REALM
@@ -163,11 +169,17 @@ class KA:
         :returns int, dictionary requests.status_code, result:
         """
 
-        r = requests.get('{}/{}'.format(self.KA_URL, url),
-                         json=params,
-                         headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie,
-                         verify=self.ssl_verify)
+        if self.use_cache is True and self._get_cache_hash(url, params) in self.cache:
+            r = self.cache[self._get_cache_hash(url, params)]
+        else:
+            r = requests.get('{}/{}'.format(self.KA_URL, url),
+                             json=params,
+                             headers=self.KA_HEADERS,
+                             cookies=self.fed_cookie,
+                             verify=self.ssl_verify)
+
+            if self.use_cache is True and self._get_cache_hash(url, params) not in self.cache:
+                self.cache[self._get_cache_hash(url, params)] = r
 
         status, result = self.req(r)
         result = self.remove_keys(result, remove_keys)
@@ -180,10 +192,15 @@ class KA:
         if key2 is None:
             key2 = ');'
 
-        r = requests.get('{}/{}'.format(self.KA_URL, url),
-                         headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie,
-                         verify=self.ssl_verify)
+        if self.use_cache is True and self._get_cache_hash(url, params) in self.cache:
+            r = self.cache[self._get_cache_hash(url, params)]
+        else:
+            r = requests.get('{}/{}'.format(self.KA_URL, url),
+                             headers=self.KA_HEADERS,
+                             cookies=self.fed_cookie,
+                             verify=self.ssl_verify)
+            if self.use_cache is True and self._get_cache_hash(url, params) not in self.cache:
+                self.cache[self._get_cache_hash(url, params)] = r
 
         if r.status_code == 200:
             try:
@@ -541,7 +558,15 @@ class KA:
         alias for get_applications
         :return:
         """
-        return self.get_applications()
+        status1, applications = self.get_applications()
+        status2, ended = self.get_inbox_ended()
+        status3, deceased = self.get_applications_deceased()
+
+        return 200, {
+            'applications': applications if status1 is True else [],
+            'ended': ended if status2 is True else [],
+            'deceases': deceased if status3 is True else []
+        }
 
     def approve_application(self, application):
         """Approve an application
