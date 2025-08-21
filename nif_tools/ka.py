@@ -563,9 +563,9 @@ class KA:
         status3, deceased = self.get_applications_deceased()
 
         return 200, {
-            'applications': applications if status1 is 200 else [],
-            'ended': ended if status2 is 200 else [],
-            'deceases': deceased if status3 is 200 else []
+            'applications': applications if status1 == 200 else [],
+            'ended': ended if status2 == 200 else [],
+            'deceases': deceased if status3 == 200 else []
         }
 
     def approve_application(self, application):
@@ -1004,3 +1004,36 @@ class KA:
             return True, result
 
         return False, {}
+
+
+    def get_payment_export_log(self):
+        url = f'PaymentExportLog'
+        params = None
+        key1 = 'var model = {"Title":"Utbetalingshistorikk","Transmissions":[{'
+        key2 = '}]'
+        pre_pad = '[{'
+        post_pad = '}]'
+
+        status, result = self.requests_html(url=url,
+                                            params=params,
+                                            key1=key1,
+                                            key2=key2,
+                                            pre_pad=pre_pad,
+                                            post_pad=post_pad)
+        return status, result
+
+    def get_payment_export_detail(self, export_id):
+        url = f'PaymentExportLog/Details?id={export_id}'
+        params = None
+        key1 = 'var model = {"Title":"Utbetalingshistorikk","Orgs":[{'
+        key2 = '}]}],"TitleCssClass"'
+        pre_pad = '[{'
+        post_pad = '}]}]'
+
+        status, result = self.requests_html(url=url,
+                                            params=params,
+                                            key1=key1,
+                                            key2=key2,
+                                            pre_pad=pre_pad,
+                                            post_pad=post_pad)
+        return status, result
