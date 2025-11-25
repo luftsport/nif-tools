@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup
 import requests
 from nif_tools.common import get_headers
@@ -7,6 +6,7 @@ import pandas as pd
 from io import StringIO
 
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+
 
 class SA:
     def __init__(self, username, password, realm='sa', email_recepients=[], ssl_verify=False):
@@ -42,7 +42,6 @@ class SA:
 
         return r.status_code, r.text
 
-
     def get_organization(self, org_id):
         status, html = self.requests_html(f'/Mvc5/Org/Index/{org_id}')
         if status == 200:
@@ -76,7 +75,29 @@ class SA:
             for item in table_list:
                 table_list_dict.append(item.to_dict('records'))
 
-
             return status, {'labels': labels, 'org_logo': org_logo, 'tables': table_list_dict}
 
         return status, None
+
+    def get_person(self, person_id):
+        status, html = self.requests_html(f'/Person/Index/About/{person_id}')
+        if status == 200:
+            pass
+
+    def verify_person_is_ssn_validated(self, person_id):
+        status, html = self.requests_html(f'/Person/Index/About/{person_id}')
+        if status == 200:
+            dfs = pd.read_html(StringIO(html))
+
+            # It's table index 5:
+            for index, row in dfs[5].iterrows():
+                try:
+                    if "Bekreftet med f" in row[0]:
+                        if 'Ja' in row[1]:
+                            return True
+                        elif 'Nei' in row[1]:
+                            return False
+                except Exception as e:
+                    pass
+
+        return False
