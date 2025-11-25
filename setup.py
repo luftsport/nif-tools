@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="nif-tools",
-    version="0.15.1",
+    version="0.16.0",
     author="Einar Huseby",
     author_email="einar.huseby@gmail.com",
     description="Tools to programmatically interact with NIF's Min Idrett, Klubbadmin and Sportsadmin",
