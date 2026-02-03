@@ -229,7 +229,6 @@ class Passbuy:
                                         allow_redirects=False,
                                         verify=self.ssl_verify)
 
-
                 if callback.status_code == 302:
                     self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, callback.cookies)
 
@@ -238,28 +237,53 @@ class Passbuy:
                                            allow_redirects=False,
                                            verify=self.ssl_verify)
 
-
                     if connect.status_code == 200:
                         self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, connect.cookies)
 
                         mi_html = BeautifulSoup(connect.text, 'lxml')
                         id_url = mi_html.find('form').get_attribute_list('action')[0]
-                        id_token = mi_html.find('input', attrs={'name': 'id_token'}).get_attribute_list('value')[0]
+
                         scope = mi_html.find('input', attrs={'name': 'scope'}).get_attribute_list('value')[0]
                         state = mi_html.find('input', attrs={'name': 'state'}).get_attribute_list('value')[0]
                         session_state = mi_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
+                        data = {'scope': scope,
+                                'state': state,
+                                'session_state': session_state}
+
+                        # Optional fields
+                        for field in ['code', 'id_token', 'iss']:
+                            try:
+                                value = mi_html.find('input', attrs={'name': field}).get_attribute_list('value')[0]
+                                data[field] = value
+                            except:
+                                pass
+
+                        # Make sure to add these cookies
+                        if 'nif.start.url' not in self.nif_jar.keys():
+                            self.nif_jar.set('nif.start.url', '', domain='.nif.no')
+                        if 'cookieconsent' not in self.nif_jar.keys():
+                            self.nif_jar.set('cookieconsent','yes', domain='.nif.no')
 
                         resp = requests.post(url=id_url,
-                                             data={'id_token': id_token,
-                                                   'scope': scope,
-                                                   'state': state,
-                                                   'session_state': session_state},
+                                             data=data,
+                                             headers={
+                                                 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0',
+                                                 'Origin': 'null',
+                                                 'Host': '{0}.nif.no'.format(self.realm),
+                                                 'Sec-Fetch-Dest': 'document',
+                                                 'Sec-Fetch-Mode': 'navigate',
+                                                 'Sec-Fetch-Site': 'same-site',
+                                                 'Sec-GPC': '1',
+                                                 'Upgrade-Insecure-Requests': '1',
+                                                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                                 'Pragma': 'no-cache',
+                                                 'Cache-Control': 'no-cache'
+                                             },
                                              cookies=self.nif_jar,
                                              allow_redirects=False,
                                              verify=self.ssl_verify)
 
                         if resp.status_code == 302:
-
                             self.nif_jar = requests.cookies.merge_cookies(self.nif_jar, resp.cookies)
 
                             return True, resp
