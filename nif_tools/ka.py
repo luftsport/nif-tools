@@ -48,10 +48,13 @@ class KA:
     def _login(self, username, password, cookie_file=None):
 
         if cookie_file is not None and os.path.isfile(cookie_file) is True:
-            with open(cookie_file, 'rb') as f:
-                content = pickle.load(f)
-                if list(content['fed_cookie'])[len(content['fed_cookie']) - 1].expires > datetime.datetime.now().timestamp():
-                    return True, content['person_id'], content['fed_cookie']
+            try:
+                with open(cookie_file, 'rb') as f:
+                    content = pickle.load(f)
+                    if list(content['fed_cookie'])[0].expires > datetime.datetime.now().timestamp():
+                        return True, content['person_id'], content['fed_cookie']
+            except Exception as e:
+                pass # Silent, just try to log in normally
 
         pb = Passbuy(username=username,
                      password=password,
