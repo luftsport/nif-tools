@@ -3,18 +3,25 @@ from nif_tools.passbuy import Passbuy
 from nif_tools.common import get_headers
 
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+
+
 class MI:
 
-    def __init__(self, username, password, realm='mi', ssl_verify=False):
+    def __init__(self, username, password, realm='mi', ssl_verify=False, debug=False):
         self.username = username
         self.KA_REALM = realm
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
+        self.debug = debug
 
-        self.passbuy = Passbuy(username=username,
-                     password=password,
-                     realm=self.KA_REALM,
-                     ssl_verify=self.ssl_verify)
+        self._login(password)
+
+    def _login(self, password):
+        self.passbuy = Passbuy(username=self.username,
+                               password=password,
+                               realm=self.KA_REALM,
+                               ssl_verify=self.ssl_verify,
+                               debug=self.debug)
         status, self.person_id, self.fed_cookie = self.passbuy.login()
 
         if status is not True:
