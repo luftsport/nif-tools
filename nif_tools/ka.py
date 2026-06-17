@@ -50,7 +50,7 @@ class KA:
         if cookie_file is not None and os.path.isfile(cookie_file) is True:
             with open(cookie_file, 'rb') as f:
                 content = pickle.load(f)
-                if list(content['fed_cookie'])[len(content['fed_cookie']) - 1].expires > datetime.datetime.now().timestamp():
+                if list(content['fed_cookie'])[0].expires > datetime.datetime.now().timestamp():
                     return True, content['person_id'], content['fed_cookie']
 
         pb = Passbuy(username=username,
