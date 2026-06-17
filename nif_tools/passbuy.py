@@ -48,6 +48,7 @@ class Passbuy:
         # Use session to persist cookies and headers across requests
         self.session = requests.Session()
         self.session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0'})
+        # Debug mode - only for fg 
         if debug is True:
             print("[WARNING] Debug mode enabled: Adding response hook to print request and response details")
             self.session.hooks["response"].append(self.debug_response)
