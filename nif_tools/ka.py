@@ -30,13 +30,14 @@ requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.
 
 
 class KA:
-    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None, use_cache=False):
+    def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None, use_cache=False, debug=False):
         self.username = username
         self.KA_REALM = realm
         self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
         self.use_cache = use_cache
         self.cache = {}
+        self.debug = debug
 
         status, self.person_id, self.fed_cookie = self._login(username, password, cookie_file)
         if status is not True:
@@ -55,7 +56,8 @@ class KA:
         pb = Passbuy(username=username,
                      password=password,
                      realm=self.KA_REALM,
-                     ssl_verify=self.ssl_verify)
+                     ssl_verify=self.ssl_verify,
+                     debug=self.debug)
 
         status, person_id, fed_cookie = pb.login()
 
