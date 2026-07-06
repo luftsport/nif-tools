@@ -54,7 +54,7 @@ class KA:
                     if list(content['fed_cookie'])[0].expires > datetime.datetime.now().timestamp():
                         return True, content['person_id'], content['fed_cookie']
             except Exception as e:
-                pass # Silent, just try to log in normally
+                pass  # Silent, just try to log in normally
 
         pb = Passbuy(username=username,
                      password=password,
@@ -541,6 +541,12 @@ class KA:
 
         :returns list invoices: list of invoices from search
         """
+        key = 'nif.memberMessagesMembershipApplicationsViewModel = Nif.PersonInboxLineListViewModel.create('
+        url = 'Messages'
+        params = {}
+        status, result = self.requests_html(url=url, key1=key, params=params)
+
+        return status, result['Items']
 
     def get_applications(self):
         """Get membership applications
@@ -912,6 +918,34 @@ class KA:
 
         return False
 
+    def search_invoices(self, query='', from_date=None, to_date=None) -> (int, dict):
+
+        if from_date is None:
+            from_date = datetime.datetime.now()
+        if to_date is None:
+            to_date = from_date # only one day! datetime.datetime.now()
+
+        payload = {
+            'Freetext': query,
+            'StatusPaid': False,
+            'StatusRefunded': False,
+            'InvoiceFrom': from_date.strftime("%d.%m.%Y") if isinstance(from_date, datetime.datetime) else from_date,
+            'InvoiceTo': to_date.strftime("%d.%m.%Y") if isinstance(to_date, datetime.datetime) else to_date,
+            'PaidFromDate': '',
+            'PaidToDate': '',
+            'From': 0,
+            'Size': 10000,
+            'OrderBy': 1,
+            'Direction': True,
+            'IgnoreCache': True,
+            'SelectedOrgId': 376,
+            'RootOrgId': 376
+        }
+
+        status, result = self.post(url='/Invoice/Search', params=payload)
+
+        return status, result.get('Items', [])
+
     def send_invoices(self, person_ids, notify=False) -> (int, dict):
         """This actually sends the invoice"""
 
@@ -1009,7 +1043,6 @@ class KA:
             return True, result
 
         return False, {}
-
 
     def get_payment_export_log(self):
         url = f'PaymentExportLog'
