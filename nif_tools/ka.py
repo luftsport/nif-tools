@@ -12,7 +12,7 @@
 
 """
 
-import requests
+from nif_tools.session_adapter import get_session_adpter
 import json
 from nif_tools.passbuy import Passbuy
 import dateutil.parser
@@ -26,7 +26,6 @@ import pickle
 import os.path
 
 MAX_SUPPORTED_VERSION = '3.73.8511'
-requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 
 class KA:
@@ -42,6 +41,10 @@ class KA:
         status, self.person_id, self.fed_cookie = self._login(username, password, cookie_file)
         if status is not True:
             raise Exception('Could not log in via passbuy')
+
+        self.session = get_session_adpter()
+        self.session.headers.update(self.KA_HEADERS)
+        self.session.cookies.update(self.fed_cookie)
 
         self.email_recepients = email_recepients
 
@@ -90,7 +93,12 @@ class KA:
 
     def get_version(self) -> (str, str):
         try:
-            r = requests.get(self.KA_URL, verify=self.ssl_verify)
+            try:
+                r = self.session.get(self.KA_URL)
+            except Exception as e:
+                import requests # session adapter not used?
+                r = requests.get(self.KA_URL)
+
             soup = BeautifulSoup(r.text, 'html.parser')
             p = soup.findAll('p', {'hidden': True})
             versions = re.findall(r'[0-9]+\.[0-9]+\.?[0-9]+\.?[0-9]*', str(p[0]))
@@ -155,8 +163,7 @@ class KA:
         r = requests.post('{}/{}'.format(self.KA_URL, url),
                           json=params,
                           headers=self.KA_HEADERS,
-                          cookies=self.fed_cookie,
-                          verify=self.ssl_verify)
+                          cookies=self.fed_cookie)
 
         status, result = self.req(r)
         result = self.remove_keys(result, remove_keys)
@@ -177,11 +184,8 @@ class KA:
         if self.use_cache is True and self._get_cache_hash(url, params) in self.cache:
             r = self.cache[self._get_cache_hash(url, params)]
         else:
-            r = requests.get('{}/{}'.format(self.KA_URL, url),
-                             json=params,
-                             headers=self.KA_HEADERS,
-                             cookies=self.fed_cookie,
-                             verify=self.ssl_verify)
+            r = self.session.get('{}/{}'.format(self.KA_URL, url),
+                                 json=params)
 
             if self.use_cache is True and self._get_cache_hash(url, params) not in self.cache:
                 self.cache[self._get_cache_hash(url, params)] = r
@@ -200,10 +204,7 @@ class KA:
         if self.use_cache is True and self._get_cache_hash(url, params) in self.cache:
             r = self.cache[self._get_cache_hash(url, params)]
         else:
-            r = requests.get('{}/{}'.format(self.KA_URL, url),
-                             headers=self.KA_HEADERS,
-                             cookies=self.fed_cookie,
-                             verify=self.ssl_verify)
+            r = self.session.get('{}/{}'.format(self.KA_URL, url))
             if self.use_cache is True and self._get_cache_hash(url, params) not in self.cache:
                 self.cache[self._get_cache_hash(url, params)] = r
 
@@ -225,7 +226,7 @@ class KA:
         """Get member search filter"""
 
         url = '{}/Members/'.format(self.KA_URL)
-        page = requests.get(url, cookies=self.fed_cookie, headers=self.KA_HEADERS, verify=self.ssl_verify)
+        page = self.session.get(url)
         en = page.text.split('var model = {')
         to = en[1].split('};')
         flt = json.loads("{%s}" % to[0])
@@ -245,11 +246,8 @@ class KA:
                         'OrderBy': 1,
                         'Size': 1000}
 
-        resp = requests.post('{}/Members/SearchClub'.format(self.KA_URL),
-                             cookies=self.fed_cookie,
-                             json=clubs_filter,
-                             headers=self.KA_HEADERS,
-                             verify=self.ssl_verify)
+        resp = self.session.post('{}/Members/SearchClub'.format(self.KA_URL),
+                                 json=clubs_filter)
 
         if resp.status_code == 200:
             return resp.json()['Items']
@@ -315,11 +313,8 @@ class KA:
 
     def get_person_reskonto_year(self, person_id, year=2019):
 
-        resp = requests.post('{}/PersonInvoice/ChangeYear'.format(self.KA_URL),
-                             json={'Year': year, 'PersonId': person_id},
-                             headers=self.KA_HEADERS,
-                             cookies=self.fed_cookie,
-                             verify=self.ssl_verify)
+        resp = self.session.post('{}/PersonInvoice/ChangeYear'.format(self.KA_URL),
+                                 json={'Year': year, 'PersonId': person_id})
 
         if resp.status_code == 200:
             return True, resp.json()
@@ -480,9 +475,7 @@ class KA:
 
                 for org in cat['Orgs']:
 
-                    r = requests.get(url='{}/ka/orgs/activity/{}'.format(self.API_URL, org['ClubOrgId']),
-                                     headers=self.API_HEADERS,
-                                     verify=self.ssl_verify)
+                    r = self.session.get(url='{}/ka/orgs/activity/{}'.format(self.API_URL, org['ClubOrgId']))
 
                     if r.status_code == 200:
                         club = r.json()
@@ -923,7 +916,7 @@ class KA:
         if from_date is None:
             from_date = datetime.datetime.now()
         if to_date is None:
-            to_date = from_date # only one day! datetime.datetime.now()
+            to_date = from_date  # only one day! datetime.datetime.now()
 
         payload = {
             'Freetext': query,

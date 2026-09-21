@@ -1,10 +1,8 @@
-import requests
+from nif_tools.session_adapter import get_session_adpter
 from bs4 import BeautifulSoup, Comment
 import os
 import inspect
 from pprint import pprint
-
-requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 
 class Error(Exception):
@@ -29,8 +27,6 @@ class InputError(Error):
         self.message = message
 
 
-
-
 class Passbuy:
     nif_jar = None
     bp_jar = None
@@ -46,7 +42,7 @@ class Passbuy:
         self.ssl_verify = ssl_verify
 
         # Use session to persist cookies and headers across requests
-        self.session = requests.Session()
+        self.session = get_session_adpter()  # requests.Session()
         self.session.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0'})
         # Debug mode - only for fg 
         if debug is True:
@@ -107,7 +103,7 @@ class Passbuy:
         :returns boolean is_maintanance:
         """
 
-        r = self.session.get('https://{}.nif.no'.format(self.realm), verify=self.ssl_verify)
+        r = self.session.get('https://{}.nif.no'.format(self.realm))
 
         if r.status_code == 503:
             return True
@@ -126,43 +122,39 @@ class Passbuy:
 
     def nif_realm(self):
 
-        r = self.session.get('https://{}.nif.no/'.format(self.realm), verify=self.ssl_verify)
+        r = self.session.get('https://{}.nif.no/'.format(self.realm))
 
         self.session.cookies.update(r.cookies)
 
         # Login page
         resp = self.session.get('https://{}.nif.no/{}'.format(self.realm, self.login_page),
-                            allow_redirects=False,
-                            verify=self.ssl_verify)
+                                allow_redirects=False)
         self.nif_jar = self.session.cookies.update(resp.cookies)
 
         if resp.status_code == 302:
 
             # id.nif.no/connect/authorize
             r1 = self.session.get(resp.headers.get('Location', ''),
-                              allow_redirects=False)
+                                  allow_redirects=False)
             self.session.cookies.update(r1.cookies)
 
             if r1.status_code == 302:
 
                 # id.nif.no/Account/Login
-                r2 = requests.get(r1.headers.get('Location', ''),
+                r2 = self.session.get(r1.headers.get('Location', ''),
                                   allow_redirects=False)
                 self.session.cookies.update(r2.cookies)
 
                 if r2.status_code == 302:
                     # id.nif.no/ExternalLogin/Challenge
                     r3 = self.session.get('https://id.nif.no{}'.format(r2.headers.get('Location', '')),
-                                      allow_redirects=False,
-                                      verify=self.ssl_verify)
+                                          allow_redirects=False)
                     self.session.cookies.update(r3.cookies)
-
 
                     if r3.status_code == 302:
                         # auth/nif/buypass.no/auth/realms/nif/protocol/openid-connect/auth
                         r4 = self.session.get('{}'.format(r3.headers.get('Location', '')),
-                                              allow_redirects=False,
-                                              verify=self.ssl_verify)
+                                              allow_redirects=False)
                         self.session.cookies.update(r4.cookies)
                         return True, r4
 
@@ -179,8 +171,7 @@ class Passbuy:
 
             # auth.nif.buypass.no/auth/realms/nif/protocol/openid-connect/auth
             r = self.session.get(mi.headers.get('Location', ''),
-                             allow_redirects=False,
-                             verify=self.ssl_verify)
+                                 allow_redirects=False)
 
             if r.status_code == 200:
                 self.bp_jar = r.cookies
@@ -191,12 +182,11 @@ class Passbuy:
 
                 # Login 1
                 login1 = self.session.post(url=login_url, data={'challenge': challenge,
-                                                            'username': self.username,
-                                                            'rememberMe': 'off',
-                                                            'origin_url': '',
-                                                            'authMethod': ''},
-                                       allow_redirects=False,
-                                       verify=self.ssl_verify)
+                                                                'username': self.username,
+                                                                'rememberMe': 'off',
+                                                                'origin_url': '',
+                                                                'authMethod': ''},
+                                           allow_redirects=False)
                 if login1.status_code == 200:
                     self.session.cookies.update(login1.cookies)
 
@@ -209,8 +199,7 @@ class Passbuy:
                         'rememberMe': 'off',
                         'origin_url': '',
                         'authMethod': ''},
-                                           allow_redirects=False,
-                                           verify=self.ssl_verify)
+                                               allow_redirects=False)
                     if login2.status_code == 200:
                         self.session.cookies.update(login2.cookies)
 
@@ -229,20 +218,19 @@ class Passbuy:
             # session_state = bp_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
 
             resp = self.session.post(url=login_url,
-                                 # data={'code': self.code,
-                                 #      'state': state,
-                                 #      'session_state': session_state},
-                                 data={
-                                     'clientDataJSON': '',
-                                     'attestationObject': '',
-                                     'publicKeyCredentialId': '',
-                                     'authenticatorLabel': '',
-                                     'transports': '',
-                                     'error': '',
-                                     'skipPasskeyRegistration': 'true'
-                                 },
-                                 allow_redirects=False,
-                                 verify=self.ssl_verify)
+                                     # data={'code': self.code,
+                                     #      'state': state,
+                                     #      'session_state': session_state},
+                                     data={
+                                         'clientDataJSON': '',
+                                         'attestationObject': '',
+                                         'publicKeyCredentialId': '',
+                                         'authenticatorLabel': '',
+                                         'transports': '',
+                                         'error': '',
+                                         'skipPasskeyRegistration': 'true'
+                                     },
+                                     allow_redirects=False)
             self.session.cookies.update(resp.cookies)
 
             if resp.status_code == 200:
@@ -253,31 +241,28 @@ class Passbuy:
                 session_state = t_html.find('input', attrs={'name': 'session_state'}).get_attribute_list('value')[0]
                 iss = t_html.find('input', attrs={'name': 'iss'}).get_attribute_list('value')[0]
                 t_resp = self.session.post(url=t_url,
-                                       data={'code': self.code,
-                                             'state': state,
-                                             'session_state': session_state,
-                                             'iss': iss
-                                             },
-                                       allow_redirects=False,
-                                       verify=self.ssl_verify)
+                                           data={'code': self.code,
+                                                 'state': state,
+                                                 'session_state': session_state,
+                                                 'iss': iss
+                                                 },
+                                           allow_redirects=False)
 
             # This is nif!!
             if t_resp.status_code == 302:
                 self.session.cookies.update(t_resp.cookies)
 
                 callback = self.session.get(url='https://id.nif.no{}'.format(t_resp.headers.get('Location', '')),
-                                        allow_redirects=False,
-                                        verify=self.ssl_verify)
+                                            allow_redirects=False)
 
                 if callback.status_code == 302:
                     self.nif_jar = self.session.cookies.update(callback.cookies)
 
                     connect = self.session.get(url='https://id.nif.no{}'.format(callback.headers.get('Location', '')),
-                                           allow_redirects=False,
-                                           verify=self.ssl_verify)
+                                               allow_redirects=False)
 
                     if connect.status_code == 200:
-                        self.session.cookies.update(connect.cookies) # self.session.cookies.update(connect.cookies)
+                        self.session.cookies.update(connect.cookies)  # self.session.cookies.update(connect.cookies)
 
                         mi_html = BeautifulSoup(connect.text, 'lxml')
                         id_url = mi_html.find('form').get_attribute_list('action')[0]
@@ -301,27 +286,26 @@ class Passbuy:
                             if 'nif.start.url' not in self.nif_jar.keys():
                                 self.nif_jar.set('nif.start.url', '', domain='.nif.no')
                             if 'cookieconsent' not in self.nif_jar.keys():
-                                self.nif_jar.set('cookieconsent','yes', domain='.nif.no')
+                                self.nif_jar.set('cookieconsent', 'yes', domain='.nif.no')
                         except:
-                            pass # Silent
+                            pass  # Silent
 
                         resp = self.session.post(url=id_url,
-                                             data=data,
-                                             headers={
-                                                 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0',
-                                                 'Origin': 'null',
-                                                 'Host': '{0}.nif.no'.format(self.realm),
-                                                 'Sec-Fetch-Dest': 'document',
-                                                 'Sec-Fetch-Mode': 'navigate',
-                                                 'Sec-Fetch-Site': 'same-site',
-                                                 'Sec-GPC': '1',
-                                                 'Upgrade-Insecure-Requests': '1',
-                                                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                                                 'Pragma': 'no-cache',
-                                                 'Cache-Control': 'no-cache'
-                                             },
-                                             allow_redirects=False,
-                                             verify=self.ssl_verify)
+                                                 data=data,
+                                                 headers={
+                                                     'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0',
+                                                     'Origin': 'null',
+                                                     'Host': '{0}.nif.no'.format(self.realm),
+                                                     'Sec-Fetch-Dest': 'document',
+                                                     'Sec-Fetch-Mode': 'navigate',
+                                                     'Sec-Fetch-Site': 'same-site',
+                                                     'Sec-GPC': '1',
+                                                     'Upgrade-Insecure-Requests': '1',
+                                                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                                     'Pragma': 'no-cache',
+                                                     'Cache-Control': 'no-cache'
+                                                 },
+                                                 allow_redirects=False)
 
                         if resp.status_code == 302:
                             self.session.cookies.update(resp.cookies)
@@ -336,21 +320,23 @@ class Passbuy:
 
         if status is True:
             resp = self.session.get(url=nif_id.headers.get('Location', ''),
-                                allow_redirects=False,
-                                verify=self.ssl_verify)
+                                    allow_redirects=False)
             if resp.status_code == 302:
                 self.session.cookies.update(resp.cookies)
 
-                resp2 = self.session.get(url=resp.headers.get('Location', ''),
-                                        allow_redirects=False,
-                                        verify=self.ssl_verify)
+                mi_url = resp.headers.get('Location', '')
+                if self.realm == 'sa':
+                    from nif_tools.common import get_headers
+                    _url, _ = get_headers(realm='sa')
+                    mi_url = f'{_url}/{mi_url}'
+                resp2 = self.session.get(url=mi_url,
+                                         allow_redirects=False)
                 if resp2.status_code == 200:
 
                     if self.realm in ['mi', 'minidrett']:
                         # Get profile and find person_id
                         profile = self.session.get(url='https://minidrett.nif.no/MyProfile/Profiles',
-                                               allow_redirects=False,
-                                               verify=self.ssl_verify)
+                                                   allow_redirects=False)
 
                         if profile.status_code == 200:
                             # soup = BeautifulSoup(profile.text, 'lxml')
@@ -369,13 +355,12 @@ class Passbuy:
 
         if self.person_id is not None:
 
-            r = self.session.get('https://ka.nif.no/Members', allow_redirects=False, verify=self.ssl_verify)
+            r = self.session.get('https://ka.nif.no/Members', allow_redirects=False)
 
             if r.status_code == 302:
                 self.nif_jar = self.session.cookies.update(r.cookies)
                 frm = self.session.get(r.headers.get('Location', ''),
-                                   allow_redirects=False,
-                                   verify=self.ssl_verify)
+                                       allow_redirects=False)
 
                 if frm.status_code == 200:
                     self.session.cookies.update(frm.cookies)
