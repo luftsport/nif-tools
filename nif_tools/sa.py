@@ -1,26 +1,25 @@
+from nif_tools.session_adapter import get_session_adpter
 from bs4 import BeautifulSoup
-import requests
 from nif_tools.common import get_headers
 from nif_tools.passbuy import Passbuy
 import pandas as pd
 from io import StringIO
 
-requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
-
 
 class SA:
     def __init__(self, username, password, realm='sa', email_recepients=[], ssl_verify=False, debug=False):
         self.username = username
-        self.KA_REALM = realm
-        self.KA_URL, self.KA_HEADERS = get_headers(realm=realm)
+        self.SA_REALM = realm
+        self.SA_URL, self.SA_HEADERS = get_headers(realm=realm)
         self.ssl_verify = ssl_verify
         self.debug = debug
         self._login(password)
+        self.email_recepients = email_recepients or []
 
     def _login(self, password):
         pb = Passbuy(username=self.username,
                      password=password,
-                     realm=self.KA_REALM,
+                     realm=self.SA_REALM,
                      ssl_verify=self.ssl_verify,
                      debug=self.debug)
         status, self.person_id, self.fed_cookie = pb.login()
@@ -28,26 +27,25 @@ class SA:
         if status is not True:
             raise Exception('Could not log in via passbuy')
 
-        self.email_recepients = email_recepients
+        self.session = get_session_adpter()
+        self.session.headers.update(self.SA_HEADERS)
+        self.session.cookies.update(self.fed_cookie)
 
     def get_realm(self):
-        return self.KA_REALM
+        return self.SA_REALM
 
     def get_url(self):
-        return self.KA_URL
+        return self.SA_URL
 
     def requests_html(self, url):
         """Gets html page"""
 
-        r = requests.get('{}/{}'.format(self.KA_URL, url),
-                         headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie,
-                         verify=self.ssl_verify)
+        r = self.session.get('{}/{}'.format(self.SA_URL, url))
 
         return r.status_code, r.text
 
     def get_organization(self, org_id):
-        status, html = self.requests_html(f'/Mvc5/Org/Index/{org_id}')
+        status, html = self.requests_html(f'{self.SA_URL}/Mvc5/Org/Index/{org_id}')
         if status == 200:
             soup = BeautifulSoup(html, 'html.parser')
 
