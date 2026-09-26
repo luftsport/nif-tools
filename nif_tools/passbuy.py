@@ -317,7 +317,11 @@ class Passbuy:
     def minidrett(self):
 
         status, nif_id = self.nif_id()
+<<<<<<< Updated upstream
 
+=======
+        # print(nif_id.headers, nif_id.text, nif_id.cookies)
+>>>>>>> Stashed changes
         if status is True:
             resp = self.session.get(url=nif_id.headers.get('Location', ''),
                                     allow_redirects=False)
