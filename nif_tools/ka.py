@@ -13,6 +13,7 @@
 """
 
 from nif_tools.session_adapter import get_session_adpter
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import json
 from nif_tools.passbuy import Passbuy
 import dateutil.parser
@@ -24,9 +25,13 @@ import re
 from packaging import version
 import pickle
 import os.path
-
+from requests.exceptions import SSLError, ConnectionError, Timeout
 MAX_SUPPORTED_VERSION = '3.73.8511'
-
+RETRY_ERRS=retry_if_exception_type((
+    SSLError, 
+    ConnectionError,
+    Timeout
+))
 
 class KA:
     def __init__(self, username, password, realm='ka', email_recepients=[], ssl_verify=False, cookie_file=None, use_cache=False, debug=False):
@@ -48,9 +53,15 @@ class KA:
 
         self.email_recepients = email_recepients
 
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=RETRY_ERRS,
+        reraise=True  # If all 3 attempts fail, raises the requests.exceptions.SSLError instead of RetryError
+    )
     def _login(self, username, password, cookie_file=None):
 
-        if cookie_file is not None and os.path.isfile(cookie_file) is True:
+        if self.use_cache is True and cookie_file is not None and os.path.isfile(cookie_file) is True:
             try:
                 with open(cookie_file, 'rb') as f:
                     content = pickle.load(f)
@@ -67,7 +78,7 @@ class KA:
 
         status, person_id, fed_cookie = pb.login()
 
-        if status is True and cookie_file is not None:
+        if self.use_cache is True and status is True and cookie_file is not None:
             with open(cookie_file, 'wb') as f:
                 pickle.dump({'person_id': person_id, 'fed_cookie': fed_cookie}, f)
 
@@ -151,6 +162,12 @@ class KA:
 
         return d
 
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=RETRY_ERRS,
+        reraise=True  # If all 3 attempts fail, raises the requests.exceptions.SSLError instead of RetryError
+    )
     def post(self, url=None, params=None, remove_keys=[]):
         """Posts json to a resource-ish
 
@@ -172,6 +189,12 @@ class KA:
             pass
         return status, result
 
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=RETRY_ERRS,
+        reraise=True  # If all 3 attempts fail, raises the requests.exceptions.SSLError instead of RetryError
+    )
     def get(self, url=None, params=None, remove_keys=[]):
         """Gets json from a resource
 
