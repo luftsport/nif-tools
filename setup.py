@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="nif-tools",
-    version="0.20.1",
+    version="0.20.2",
     author="Einar Huseby",
     author_email="einar.huseby@gmail.com",
     description="Tools to programmatically interact with NIF's Min Idrett, Klubbadmin and Sportsadmin",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/luftsport/nif-tools",
     packages=setuptools.find_packages(),
-    install_requires=['requests', 'python-dateutil', 'bs4'],
+    install_requires=['requests', 'python-dateutil', 'bs4', 'tenacity'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
