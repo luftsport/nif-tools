@@ -40,14 +40,7 @@ class SA:
     def requests_html(self, url):
         """Gets html page"""
 
-<<<<<<< Updated upstream
         r = self.session.get('{}/{}'.format(self.SA_URL, url))
-=======
-        r = requests.get('{}{}'.format(self.KA_URL, url),
-                         headers=self.KA_HEADERS,
-                         cookies=self.fed_cookie,
-                         verify=self.ssl_verify)
->>>>>>> Stashed changes
 
         return r.status_code, r.text
 
